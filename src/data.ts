@@ -284,5 +284,53 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       date: "Issued: December 2023",
       type: "file-excel"
     }
+  ],
+  blogPosts: [
+    {
+      id: 1,
+      title: "The Future of Lean Manufacturing in Industry 4.0",
+      excerpt: "Exploring how traditional lean principles are evolving with the integration of IoT and AI in modern industrial settings.",
+      date: "Oct 15, 2025",
+      category: "Manufacturing",
+      image: "https://picsum.photos/seed/lean/800/600",
+      content: "Full blog content would go here..."
+    },
+    {
+      id: 2,
+      title: "My Journey as a Growth Fellow at ResearchBuddy AI",
+      excerpt: "Reflecting on the challenges and successes of promoting AI-driven research collaboration among university students.",
+      date: "Sep 20, 2025",
+      category: "Experience",
+      image: "https://picsum.photos/seed/ai/800/600",
+      content: "Full blog content would go here..."
+    }
+  ],
+  certifications: [
+    {
+      title: "Six Sigma Green Belt",
+      issuer: "ASQ Certified",
+      image: "https://picsum.photos/seed/cert1/400/300",
+      date: "2025"
+    },
+    {
+      title: "PMP Training",
+      issuer: "Project Management Institute",
+      image: "https://picsum.photos/seed/cert2/400/300",
+      date: "2024"
+    }
+  ],
+  notices: [
+    {
+      title: "Upcoming Workshop on SolidWorksSurfacing",
+      content: "Join me next Monday for an intensive session on advanced 3D surfacing techniques.",
+      date: "Oct 25, 2025",
+      priority: "high"
+    },
+    {
+      title: "New Project: Sustainable Product Design",
+      content: "Thrilled to announce the start of a new collaboration focused on circular economy principles.",
+      date: "Oct 18, 2025",
+      priority: "normal"
+    }
   ]
 };

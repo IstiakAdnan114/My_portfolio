@@ -9,6 +9,7 @@ export const portfolioData = {
   email: "adnanistiak111@gmail.com",
   phone: "+880 1884562034",
   location: "BUET, Palashi, Dhaka",
+  quote: "It is never too late to be who you might have been",
   socials: {
     linkedin: "https://linkedin.com/in/istiak-adnan",
     facebook: "https://www.facebook.com/mdistiak.adnan.9",
@@ -292,8 +293,24 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       excerpt: "Exploring how traditional lean principles are evolving with the integration of IoT and AI in modern industrial settings.",
       date: "Oct 15, 2025",
       category: "Manufacturing",
-      image: "https://picsum.photos/seed/lean/800/600",
-      content: "Full blog content would go here..."
+      image: "https://picsum.photos/seed/lean/1200/800",
+      content: `
+# The Intersection of Lean & Industry 4.0
+
+In the modern industrial landscape, the traditional principles of **Lean Manufacturing**—originally developed by Toyota—are undergoing a massive transformation. As we move into the era of **Industry 4.0**, the integration of the Internet of Things (IoT), Big Data, and Artificial Intelligence (AI) is providing new ways to eliminate waste and optimize value.
+
+### Key Evolutions:
+
+1. **Real-time Waste Identification**: Traditionally, Lean relied on manual observation (Gemba walks). Today, IoT sensors provide real-time data on machine downtime, bottlenecking, and inventory levels.
+2. **Predictive Maintenance**: Instead of scheduled maintenance, AI models can predict when a machine is likely to fail, significantly reducing unplanned downtime—a core Lean objective.
+3. **Data-Driven Kaizen**: Continuous improvement (Kaizen) is no longer based on intuition but on high-fidelity data analytics.
+
+### The Human Element
+
+Despite the automation, the 'Respect for People' pillar of Lean remains vital. Technology should empower workers, providing them with better tools and insights to solve problems more effectively.
+
+As an Industrial Engineer, I believe the future lies in **Lean 4.0**—where the efficiency of Lean meets the connectivity of Industry 4.0.
+      `
     },
     {
       id: 2,
@@ -301,23 +318,111 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       excerpt: "Reflecting on the challenges and successes of promoting AI-driven research collaboration among university students.",
       date: "Sep 20, 2025",
       category: "Experience",
-      image: "https://picsum.photos/seed/ai/800/600",
-      content: "Full blog content would go here..."
+      image: "https://picsum.photos/seed/ai/1200/800",
+      content: `
+# Empowering Research with AI
+
+Joining **ResearchBuddy AI** as a Growth Fellow has been one of the most rewarding experiences of my academic journey. My primary goal was to bridge the gap between advanced AI tools and the student research community at BUET.
+
+### What We Accomplished:
+
+* **Workshop Series**: Organized three major workshops introducing students to AI-driven literature reviews.
+* **Content Creation**: Developed a series of promotional videos and posts that reached over 2,000 students.
+* **Community Building**: Facilitated a support network where students can share tips on using AI ethically in their research.
+
+### Lessons Learned:
+
+The biggest takeaway for me was that **communication is key**. Explaining complex AI concepts in a way that highlights practical benefits to a student's daily work is much more effective than focusing on technical jargon.
+
+I am excited to continue this journey and see how AI will further revolutionize the way we conduct research in the coming years.
+      `
+    }
+  ],
+  publications: [
+    {
+      type: "Poster",
+      title: "Smart Real-time Monitoring and Control of Pill Dispensing and Packaging Process for Pharmaceutical Industries Using IoT and Embedded Systems",
+      authors: "Md. Istiak Adnan, Khaja Mohammad Nasir Uddin, Md. Tasdikul Islam, and Tanvir Azam",
+      journal: "ResearchGate (Preprint)",
+      year: "2024",
+      link: "https://www.researchgate.net/publication/394411020_Smart_Real-time_Monitoring_and_Control_of_Pill_Dispensing_and_Packaging_Process_for_Pharmaceutical_Industries_Using_IoT_and_Embedded_Systems",
+      status: "Published"
+    },
+    {
+      type: "Conference",
+      title: "Optimization of Multi-Functional Vegetable Cutter Design using Functional Decomposition",
+      authors: "Md. Istiak Adnan, Team Slice & Scrape",
+      journal: "International Conference on Industrial Engineering",
+      year: "2025",
+      link: "#",
+      status: "Accepted"
+    },
+    {
+      type: "Under Review",
+      title: "Sustainable Manufacturing Frameworks for SME Plastic Industries in Bangladesh",
+      authors: "Md. Istiak Adnan",
+      journal: "Journal of Cleaner Production",
+      year: "2025",
+      link: "#",
+      status: "Under Review"
+    },
+    {
+      type: "Working Paper",
+      title: "AI-Driven Quality Control in Precision Casting: A Case Study",
+      authors: "Md. Istiak Adnan, ResearchBuddy AI Team",
+      journal: "Internal Working Paper",
+      year: "2025",
+      link: "#",
+      status: "In Progress"
     }
   ],
   certifications: [
     {
+      category: "Professional",
       title: "Six Sigma Green Belt",
-      issuer: "ASQ Certified",
-      image: "https://picsum.photos/seed/cert1/400/300",
+      issuer: "MTF Institute",
+      image: "https://www.udemy.com/certificate/UC-e1a82dbe-6626-47ba-abff-f4271534db0f/", // Note: In reality this would be an image of the cert
+      link: "https://www.udemy.com/certificate/UC-e1a82dbe-6626-47ba-abff-f4271534db0f/",
       date: "2025"
     },
     {
-      title: "PMP Training",
-      issuer: "Project Management Institute",
-      image: "https://picsum.photos/seed/cert2/400/300",
-      date: "2024"
-    }
+      category: "Professional",
+      title: "Lean & Quality Management",
+      issuer: "MTF Institute",
+      image: "https://picsum.photos/seed/lean-cert/800/600",
+      link: "https://www.udemy.com/certificate/UC-e1a82dbe-6626-47ba-abff-f4271534db0f/",
+      date: "2025"
+    },
+    {
+      category: "Software & Tools",
+      title: "Excel Skills for Business: Essentials",
+      issuer: "Macquarie University",
+      image: "https://picsum.photos/seed/excel-cert/800/600",
+      link: "https://coursera.org/share/61193c244b0d9c4592c694ede8497ac6",
+      date: "2023"
+    },
+    {
+      category: "Software & Tools",
+      title: "Data Analysis using Microsoft Excel",
+      issuer: "Coursera Project Network",
+      image: "https://picsum.photos/seed/data-cert/800/600",
+      link: "https://coursera.org/share/0588aabedb6581c4c75465b58dc1600f",
+      date: "2025"
+    },
+    {
+      category: "Extracurricular",
+      title: "UCLG ASPAC Photo Contest Winner",
+      issuer: "UCLG ASPAC",
+      image: "https://picsum.photos/seed/photo-cert/800/600",
+      date: "2025"
+    },
+    {
+        category: "Academic",
+        title: "PMP Training",
+        issuer: "Project Management Institute",
+        image: "https://picsum.photos/seed/pmp-cert/800/600",
+        date: "2024"
+      }
   ],
   notices: [
     {

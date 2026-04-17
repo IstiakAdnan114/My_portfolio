@@ -3,8 +3,8 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { Menu, X } from "lucide-react";
 import { portfolioData } from "../data";
-import ParticlesBackground from "./ParticlesBackground";
 import LightRays from "./LightRays";
+import FloatingLines from "./FloatingLines";
 
 interface LayoutProps {
   children: ReactNode;
@@ -39,27 +39,40 @@ export default function Layout({ children }: LayoutProps) {
   }, [location]);
 
   return (
-    <div className="min-h-screen transition-all duration-300 font-sans bg-[#0f172a] text-[#f1f5f9] overflow-x-hidden">
-      <ParticlesBackground />
+    <div className="min-h-screen transition-all duration-300 font-sans bg-[#0f172a] text-[#f1f5f9] relative overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-[0] tech-grid opacity-20"></div>
+      <div className="fixed inset-0 pointer-events-none z-[0] tech-grid-sub opacity-30"></div>
       
+      <div className="fixed inset-0 pointer-events-none z-[1] opacity-60">
+        <FloatingLines 
+          linesGradient={["#6366f1", "#8b5cf6", "#4f46e5"]}
+          enabledWaves={['top', 'middle', 'bottom']}
+          lineCount={[15, 20, 25]}
+          lineDistance={[10, 8, 6]}
+          bendRadius={5.0}
+          bendStrength={-0.3}
+          interactive={true}
+          parallax={true}
+        />
+      </div>
       {/* Dynamic Background Accents */}
-      <div className="fixed inset-0 pointer-events-none z-0">
+      <div className="fixed inset-0 pointer-events-none z-[2]">
         <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-900/20 rounded-full blur-[120px] animate-pulse"></div>
         <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-slate-900/40 rounded-full blur-[150px]"></div>
         <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-purple-900/10 rounded-full blur-[100px]" style={{ animationDelay: "-3s" }}></div>
       </div>
 
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden opacity-30">
+      <div className="fixed inset-0 pointer-events-none z-[3] overflow-hidden opacity-50">
         <LightRays
           raysOrigin="top-center"
-          raysColor="#4f46e5"
-          raysSpeed={0.3}
-          lightSpread={0.9}
-          rayLength={2.0}
+          raysColor="#6366f1"
+          raysSpeed={0.5}
+          lightSpread={0.8}
+          rayLength={2.5}
           followMouse={true}
-          mouseInfluence={0.02}
-          noiseAmount={0.02}
-          distortion={0.01}
+          mouseInfluence={0.05}
+          noiseAmount={0.03}
+          distortion={0.02}
         />
       </div>
 
@@ -76,6 +89,7 @@ export default function Layout({ children }: LayoutProps) {
             <NavLink to="/experience">Experience</NavLink>
             <NavLink to="/skills">Skills</NavLink>
             <NavLink to="/projects">Projects</NavLink>
+            <NavLink to="/publications">Publications</NavLink>
             <NavLink to="/blog">Blog</NavLink>
             <NavLink to="/certifications">Certifications</NavLink>
             <NavLink to="/notices">Notices</NavLink>
@@ -105,6 +119,7 @@ export default function Layout({ children }: LayoutProps) {
                 <NavLink to="/experience" onClick={() => setIsMenuOpen(false)}>Experience</NavLink>
                 <NavLink to="/skills" onClick={() => setIsMenuOpen(false)}>Skills</NavLink>
                 <NavLink to="/projects" onClick={() => setIsMenuOpen(false)}>Projects</NavLink>
+                <NavLink to="/publications" onClick={() => setIsMenuOpen(false)}>Publications</NavLink>
                 <NavLink to="/blog" onClick={() => setIsMenuOpen(false)}>Blog</NavLink>
                 <NavLink to="/certifications" onClick={() => setIsMenuOpen(false)}>Certifications</NavLink>
                 <NavLink to="/notices" onClick={() => setIsMenuOpen(false)}>Notices</NavLink>

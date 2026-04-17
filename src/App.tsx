@@ -11,6 +11,8 @@ import Certifications from "./pages/Certifications";
 import NoticeBoard from "./pages/NoticeBoard";
 import Photos from "./pages/Photos";
 import Contact from "./pages/Contact";
+import BlogDetail from "./pages/BlogDetail";
+import Publications from "./pages/Publications";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -48,6 +50,8 @@ export default function App() {
           <Route path="/notices" element={<NoticeBoard />} />
           <Route path="/photos" element={<Photos />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/publications" element={<Publications />} />
+          <Route path="/blog/:id" element={<BlogDetail />} />
         </Routes>
       </Layout>
     </Router>

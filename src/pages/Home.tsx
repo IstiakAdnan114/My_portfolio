@@ -1,9 +1,34 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Mail, Github, Linkedin, MapPin, ArrowDown } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Mail, Github, Linkedin, MapPin, ArrowDown, Play, Pause } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
 import { portfolioData } from "../data";
 import ProfileCard from "../components/ProfileCard";
+
+const FuzzyQuote = ({ text }: { text: string }) => {
+  const [isAnimate, setIsAnimate] = useState(true);
+
+  return (
+    <div className="relative group inline-block mt-4 mb-2">
+      <motion.p
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.8 }}
+        className={`text-indigo-400 font-mono italic text-sm sm:text-lg px-2 py-1 rounded select-none ${isAnimate ? 'animate-fuzzy' : ''}`}
+      >
+        "{text}"
+      </motion.p>
+      
+      <button 
+        onClick={() => setIsAnimate(!isAnimate)}
+        className="absolute -right-12 top-1/2 -translate-y-1/2 p-2 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
+        title={isAnimate ? "Pause animation" : "Play animation"}
+      >
+        {isAnimate ? <Pause size={14} className="text-indigo-400" /> : <Play size={14} className="text-green-400" />}
+      </button>
+    </div>
+  );
+};
 
 const Typewriter = ({ text, speed = 100 }: { text: string; speed?: number }) => {
   const [displayText, setDisplayText] = useState("");
@@ -27,6 +52,8 @@ const Typewriter = ({ text, speed = 100 }: { text: string; speed?: number }) => 
 };
 
 export default function Home() {
+  const navigate = useNavigate();
+
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
       <div className="relative z-10 text-center text-white px-4">
@@ -39,11 +66,11 @@ export default function Home() {
           <ProfileCard
             name={portfolioData.name}
             title={portfolioData.title}
-            handle="adnanistiak"
+            handle="adnanistiak111"
             status="Available for work"
             avatarUrl="https://picsum.photos/seed/adnan/600/600"
             contactText="Get in Touch"
-            onContactClick={() => {}} // This will navigate via Link wrap in future or just keep for aesthetics
+            onContactClick={() => navigate("/contact")}
             behindGlowEnabled={true}
             behindGlowColor="rgba(99, 102, 241, 0.4)"
             innerGradient="linear-gradient(145deg, rgba(30, 41, 59, 0.8) 0%, rgba(99, 102, 241, 0.2) 100%)"
@@ -58,6 +85,8 @@ export default function Home() {
         >
           <Typewriter text={portfolioData.name} />
         </motion.h1>
+
+        <FuzzyQuote text={portfolioData.quote} />
 
         <motion.h2
           initial={{ y: 20, opacity: 0 }}

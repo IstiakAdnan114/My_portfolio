@@ -23,6 +23,7 @@ const AdvancedLightbox: React.FC<Props> = ({ images, initialIndex, onClose }) =>
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [isGrabbing, setIsGrabbing] = useState(false);
   const [lastPos, setLastPos] = useState({ x: 0, y: 0 });
+  const [touchDistance, setTouchDistance] = useState<number | null>(null);
 
   const resetTransform = useCallback(() => {
     setZoom(1);
@@ -66,6 +67,40 @@ const AdvancedLightbox: React.FC<Props> = ({ images, initialIndex, onClose }) =>
     setLastPos({ x: e.clientX, y: e.clientY });
   };
 
+  const handleWheel = (e: React.WheelEvent) => {
+    if (e.deltaY < 0) {
+      handleZoom(0.1);
+    } else {
+      handleZoom(-0.1);
+    }
+  };
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    if (e.touches.length === 2) {
+      const distance = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      setTouchDistance(distance);
+    }
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (e.touches.length === 2 && touchDistance !== null) {
+      const distance = Math.hypot(
+        e.touches[0].clientX - e.touches[1].clientX,
+        e.touches[0].clientY - e.touches[1].clientY
+      );
+      const delta = (distance - touchDistance) / 80;
+      handleZoom(delta);
+      setTouchDistance(distance);
+    }
+  };
+
+  const handleTouchEnd = () => {
+    setTouchDistance(null);
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose();
@@ -78,24 +113,41 @@ const AdvancedLightbox: React.FC<Props> = ({ images, initialIndex, onClose }) =>
 
   return (
     <div 
-      className="fixed inset-0 z-[200] bg-black/95 flex flex-col select-none"
+      className="fixed inset-0 z-[1000] bg-black/95 flex flex-col select-none"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
       onMouseMove={handleMouseMove}
       onMouseUp={() => setIsGrabbing(false)}
       onMouseLeave={() => setIsGrabbing(false)}
+      onWheel={handleWheel}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
     >
+      {/* Simple Floating Close Button - Guaranteed Visibility Above All */}
+      <button 
+        onClick={onClose}
+        className="fixed top-20 right-6 z-[1100] group flex items-center justify-center w-14 h-14 bg-red-600 hover:bg-red-700 text-white shadow-2xl rounded-full transition-all hover:scale-110 active:scale-95 border-2 border-white/40 glow-red"
+        title="Close (Esc)"
+      >
+        <X size={28} className="group-hover:rotate-90 transition-transform duration-300" />
+      </button>
+
       {/* Top Bar */}
       <div className="flex items-center justify-between p-4 bg-black/50 backdrop-blur-md border-b border-white/10">
         <div className="text-gray-400 text-sm">
           {index + 1} / {images.length}
         </div>
-        <div className="flex-1 text-center px-4 font-medium text-white truncate">
+        <div className="flex-1 text-center px-4 font-medium text-white truncate max-w-md mx-auto">
           {images[index].caption}
         </div>
+        {/* Secondary Close Button in Header for extra safety */}
         <button 
           onClick={onClose}
-          className="p-2 hover:bg-red-500/20 text-red-400 hover:text-red-300 rounded-lg transition-colors"
+          className="p-2 hover:bg-white/10 rounded-lg text-gray-400 hover:text-white transition-colors block sm:hidden"
         >
-          <X size={24} />
+          <X size={20} />
         </button>
       </div>
 

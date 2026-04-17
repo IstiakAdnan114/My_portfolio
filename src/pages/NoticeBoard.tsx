@@ -1,8 +1,18 @@
-import { motion } from "motion/react";
-import { Bell, Calendar, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "motion/react";
+import { Bell, Calendar, ArrowRight, X } from "lucide-react";
 import { portfolioData } from "../data";
 
+interface Notice {
+  title: string;
+  content: string;
+  date: string;
+  priority: string;
+}
+
 export default function NoticeBoard() {
+  const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
+
   return (
     <section className="py-24 px-4 min-h-screen">
       <div className="max-w-4xl mx-auto">
@@ -47,13 +57,71 @@ export default function NoticeBoard() {
                 {notice.content}
               </p>
               
-              <div className="flex items-center gap-2 text-[10px] font-black text-indigo-400 group cursor-pointer hover:gap-4 transition-all uppercase tracking-[0.2em]">
+              <div 
+                onClick={() => setSelectedNotice(notice)}
+                className="flex items-center gap-2 text-[10px] font-black text-indigo-400 group cursor-pointer hover:gap-4 transition-all uppercase tracking-[0.2em]"
+              >
                 Details <ArrowRight size={14} />
               </div>
             </motion.div>
           ))}
         </div>
       </div>
+
+      {/* Notice Detail Modal */}
+      <AnimatePresence>
+        {selectedNotice && (
+          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedNotice(null)}
+              className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            />
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              className="relative w-full max-w-xl glass-card p-10 bg-slate-900 border border-white/10 overflow-hidden"
+            >
+              <button 
+                onClick={() => setSelectedNotice(null)}
+                className="absolute top-6 right-6 text-gray-500 hover:text-white transition-colors"
+              >
+                <X size={24} />
+              </button>
+
+              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest mb-6 ${
+                selectedNotice.priority === 'high' ? 'bg-red-500/20 text-red-400' : 'bg-indigo-500/20 text-indigo-400'
+              }`}>
+                {selectedNotice.priority === 'high' ? 'High Priority' : 'Information'}
+              </div>
+
+              <h3 className="text-3xl font-bold mb-4 text-white uppercase tracking-tight">
+                {selectedNotice.title}
+              </h3>
+
+              <div className="flex items-center gap-2 text-xs text-gray-400 font-mono mb-8">
+                <Calendar size={14} className="text-indigo-400" /> {selectedNotice.date}
+              </div>
+
+              <div className="text-gray-300 text-lg leading-relaxed whitespace-pre-wrap border-t border-white/5 pt-8">
+                {selectedNotice.content}
+              </div>
+              
+              <div className="mt-12 flex justify-end">
+                <button 
+                  onClick={() => setSelectedNotice(null)}
+                  className="px-8 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-bold rounded-xl transition-all uppercase tracking-widest text-[10px]"
+                >
+                  Close Notice
+                </button>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

@@ -258,17 +258,32 @@ void main() {
       const mesh = new Mesh(gl, { geometry, program });
       meshRef.current = mesh;
 
+      let lastWidth = 0;
+      let lastHeight = 0;
+
       const updatePlacement = () => {
         if (!containerRef.current || !renderer) return;
 
-        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        const width = containerRef.current.clientWidth || 1;
+        const height = containerRef.current.clientHeight || 1;
 
-        const { clientWidth: wCSS, clientHeight: hCSS } = containerRef.current;
-        renderer.setSize(wCSS, hCSS);
+        // Mobile address bar fix: ignore small height fluctuations
+        const widthChanged = Math.abs(width - lastWidth) > 0;
+        const heightChanged = Math.abs(height - lastHeight) > 100;
+
+        if (lastWidth !== 0 && !widthChanged && !heightChanged) {
+          return;
+        }
+
+        lastWidth = width;
+        lastHeight = height;
+
+        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.setSize(width, height);
 
         const dpr = renderer.dpr;
-        const w = wCSS * dpr;
-        const h = hCSS * dpr;
+        const w = width * dpr;
+        const h = height * dpr;
 
         uniforms.iResolution.value = [w, h];
 

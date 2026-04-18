@@ -126,27 +126,28 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       color: "blue"
     }
   ],
-  skills: {
-    technical: [
-      { name: "SolidWorks", icon: "cube" },
-      { name: "AutoCAD", icon: "drafting-compass" },
-      { name: "C Programming", icon: "terminal" },
-      { name: "Python", icon: "python" },
-      { name: "HTML", icon: "html5" },
-      { name: "CSS", icon: "css3-alt" },
-      { name: "JavaScript", icon: "js" },
-      { name: "Video Editing", icon: "video" }
-    ],
-    soft: [
-      { name: "Problem Solving", icon: "lightbulb" },
-      { name: "Critical Thinking", icon: "brain" },
-      { name: "Team Leadership", icon: "user-tie" },
-      { name: "Time Management", icon: "clock" },
-      { name: "Teamwork", icon: "handshake" },
-      { name: "Communication", icon: "comments" },
-      { name: "Market Research", icon: "chart-line" }
-    ]
-  },
+  skills: [
+    {
+      category: "Data & ML",
+      items: ["Python", "Machine Learning", "Neural Networks", "Time Series Analysis", "Simulation", "Linear, Integer & Dynamic Programming", "LaTeX"]
+    },
+    {
+      category: "Manufacturing & Analysis",
+      items: ["AutoCAD", "SolidWorks", "ANSYS", "CATIA", "KeyShot", "Welding", "Lathe", "Milling", "Drilling"]
+    },
+    {
+      category: "Embedded & IoT",
+      items: ["C", "Arduino", "ESP32", "Sensor Integration"]
+    },
+    {
+      category: "Web Development",
+      items: ["HTML", "CSS", "JavaScript (Basic)"]
+    },
+    {
+      category: "Languages",
+      items: ["Bengali (Native)", "English", "Hindi"]
+    }
+  ],
   projects: [
     {
       title: "Adnan's Personal Portfolio",

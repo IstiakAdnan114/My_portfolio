@@ -1,93 +1,64 @@
 import { motion } from "motion/react";
 import {
-  Cpu, Layout, Rocket, Terminal, Box, Lightbulb,
-  Brain, Users, Clock, Handshake, MessageSquare, BarChart,
-  FileSpreadsheet, Video, DraftingCompass, Frame
+  Cpu, BarChart, Globe, Code, DraftingCompass
 } from "lucide-react";
 import { portfolioData } from "../data";
 
-const iconMap: Record<string, any> = {
-  cube: Box,
-  "drafting-compass": DraftingCompass,
-  terminal: Terminal,
-  python: Cpu,
-  html5: Layout,
-  "css3-alt": Frame,
-  js: Rocket,
-  video: Video,
-  lightbulb: Lightbulb,
-  brain: Brain,
-  "user-tie": Users,
-  clock: Clock,
-  handshake: Handshake,
-  comments: MessageSquare,
-  "chart-line": BarChart
+const categoryIcons: Record<string, any> = {
+  "Data & ML": BarChart,
+  "Manufacturing & Analysis": DraftingCompass,
+  "Embedded & IoT": Cpu,
+  "Web Development": Code,
+  "Languages": Globe
 };
 
 export default function Skills() {
   return (
     <section className="py-24 px-4 min-h-screen">
-      <div className="max-w-6xl mx-auto">
+      <div className="max-w-5xl mx-auto">
         <motion.h2
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
+          className="text-3xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
         >
-          Skills & Expertise
+          Expertise & Skills
         </motion.h2>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          {/* Technical */}
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="glass-card p-10 bg-white/5 border border-white/10"
-          >
-            <h3 className="text-2xl font-bold mb-10 text-center flex items-center justify-center text-white">
-              <Terminal className="mr-3 text-indigo-400" /> Technical Arsenal
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {portfolioData.skills?.technical?.map((skill, idx) => {
-                const Icon = iconMap[skill.icon] || Box;
-                return (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ y: -5, scale: 1.05 }}
-                    className="flex flex-col items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all group"
-                  >
-                    <Icon className="mb-3 text-indigo-400 group-hover:text-indigo-300 transition-colors" size={28} />
-                    <span className="text-xs font-bold text-center text-gray-400 group-hover:text-white uppercase tracking-wider">{skill.name}</span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {portfolioData.skills.map((category, idx) => {
+            const Icon = categoryIcons[category.category] || Cpu;
+            return (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: idx * 0.1 }}
+                className="glass-card p-8 bg-white/5 border border-white/10 hover:border-indigo-500/30 transition-all duration-500"
+              >
+                <div className="flex items-center mb-8">
+                  <div className="p-3 rounded-xl bg-indigo-500/10 text-indigo-400 mr-4">
+                    <Icon size={24} />
+                  </div>
+                  <h3 className="text-xl font-bold text-white tracking-tight">
+                    {category.category}
+                  </h3>
+                </div>
 
-          {/* Soft Skills */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="glass-card p-10 bg-white/5 border border-white/10"
-          >
-            <h3 className="text-2xl font-bold mb-10 text-center flex items-center justify-center text-white">
-              <Users className="mr-3 text-purple-400" /> Human Skills
-            </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {portfolioData.skills?.soft?.map((skill, idx) => {
-                const Icon = iconMap[skill.icon] || Box;
-                return (
-                  <motion.div
-                    key={idx}
-                    whileHover={{ y: -5, scale: 1.05 }}
-                    className="flex flex-col items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 transition-all group"
-                  >
-                    <Icon className="mb-3 text-purple-400 group-hover:text-purple-300 transition-colors" size={28} />
-                    <span className="text-xs font-bold text-center text-gray-400 group-hover:text-white uppercase tracking-wider">{skill.name}</span>
-                  </motion.div>
-                );
-              })}
-            </div>
-          </motion.div>
+                <div className="flex flex-wrap gap-3">
+                  {category.items.map((skill, sIdx) => (
+                    <motion.span
+                      key={sIdx}
+                      whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                      className="px-4 py-2 bg-white/5 border border-white/5 rounded-lg text-sm text-gray-300 font-medium transition-colors"
+                    >
+                      {skill}
+                    </motion.span>
+                  ))}
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>

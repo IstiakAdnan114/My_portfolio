@@ -76,7 +76,7 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Navigation */}
-      <header className="fixed top-0 z-[100] w-full bg-[#0f172a]/90 glass border-b border-white/10">
+      <header className="fixed top-0 z-[100] w-full bg-[#0f172a]/95 backdrop-blur-xl border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             {portfolioData.name.toUpperCase()}
@@ -110,7 +110,7 @@ export default function Layout({ children }: LayoutProps) {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: "auto" }}
               exit={{ opacity: 0, height: 0 }}
-              className="md:hidden glass bg-[#0f172a]/95 border-t border-white/10 overflow-hidden"
+              className="md:hidden bg-[#0f172a]/98 backdrop-blur-2xl border-t border-white/10 overflow-hidden"
             >
               <div className="flex flex-col p-4 space-y-4">
                 <NavLink to="/" onClick={() => setIsMenuOpen(false)}>Home</NavLink>

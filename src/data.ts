@@ -214,7 +214,6 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       image: "images/IoT-project.jpg",
       images: [
         { src: "images/IoT-project.jpg", caption: "Smart Pill Dispensing System" },
-        { src: "https://picsum.photos/seed/iot2/1200/800", caption: "IoT System Backend" }
       ]
     },
     {

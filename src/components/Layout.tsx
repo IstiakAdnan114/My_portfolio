@@ -38,8 +38,8 @@ export default function Layout({ children }: LayoutProps) {
   }, [location]);
 
   return (
-    <div className="min-h-screen transition-all duration-300 font-sans bg-[#0f172a] text-[#f1f5f9] relative overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-[0] tech-grid opacity-20"></div>
+    <div className="min-h-screen font-sans bg-[#0f172a] text-[#f1f5f9] relative overflow-x-hidden">
+      <div className="fixed inset-0 pointer-events-none z-[0] bg-[#0f172a] tech-grid opacity-20"></div>
       <div className="fixed inset-0 pointer-events-none z-[0] tech-grid-sub opacity-30"></div>
 
       <div className="fixed inset-0 pointer-events-none z-[1] opacity-40">

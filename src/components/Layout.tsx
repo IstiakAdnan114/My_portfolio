@@ -42,41 +42,39 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed inset-0 pointer-events-none z-[0] tech-grid opacity-20"></div>
       <div className="fixed inset-0 pointer-events-none z-[0] tech-grid-sub opacity-30"></div>
 
-      <div className="fixed inset-0 pointer-events-none z-[1] opacity-60">
+      <div className="fixed inset-0 pointer-events-none z-[1] opacity-40">
         <FloatingLines
           linesGradient={["#1d1710", "#202922", "#231c1d"]}
-          enabledWaves={['top', 'middle', 'bottom']}
-          lineCount={[15, 20, 25]}
-          lineDistance={[10, 8, 6]}
+          enabledWaves={['middle']}
+          lineCount={10}
+          lineDistance={12}
           bendRadius={5.0}
-          bendStrength={-0.3}
-          interactive={true}
+          bendStrength={-0.2}
+          interactive={false}
           parallax={true}
         />
       </div>
       {/* Dynamic Background Accents */}
       <div className="fixed inset-0 pointer-events-none z-[2]">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-900/20 rounded-full blur-[120px] animate-pulse"></div>
-        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-slate-900/40 rounded-full blur-[150px]"></div>
-        <div className="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-purple-900/10 rounded-full blur-[100px]" style={{ animationDelay: "-3s" }}></div>
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-indigo-900/10 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-slate-900/20 rounded-full blur-[150px]"></div>
       </div>
 
-      <div className="fixed inset-0 pointer-events-none z-[3] overflow-hidden opacity-50">
+      <div className="fixed inset-0 pointer-events-none z-[3] overflow-hidden opacity-30">
         <LightRays
           raysOrigin="top-center"
           raysColor="#6366f1"
-          raysSpeed={0.5}
-          lightSpread={0.8}
-          rayLength={2.5}
-          followMouse={true}
-          mouseInfluence={0.05}
-          noiseAmount={0.03}
-          distortion={0.02}
+          raysSpeed={0.3}
+          lightSpread={0.6}
+          rayLength={2.0}
+          followMouse={false}
+          noiseAmount={0}
+          distortion={0}
         />
       </div>
 
       {/* Navigation */}
-      <header className="fixed top-0 z-[100] w-full bg-[#0f172a]/95 backdrop-blur-xl border-b border-white/10">
+      <header className="fixed top-0 z-[100] w-full bg-[#0f172a]/95 backdrop-blur-md border-b border-white/10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             {portfolioData.name.toUpperCase()}

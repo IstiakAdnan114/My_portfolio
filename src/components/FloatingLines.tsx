@@ -274,14 +274,14 @@ export default function FloatingLines({
   const targetParallaxRef = useRef(new Vector2(0, 0));
   const currentParallaxRef = useRef(new Vector2(0, 0));
 
-  const getLineCount = (waveType: 'top'|'middle'|'bottom') => {
+  const getLineCount = (waveType: 'top' | 'middle' | 'bottom') => {
     if (typeof lineCount === 'number') return lineCount;
     if (!enabledWaves.includes(waveType)) return 0;
     const index = enabledWaves.indexOf(waveType);
     return (lineCount as number[])[index] ?? 6;
   };
 
-  const getLineDistance = (waveType: 'top'|'middle'|'bottom') => {
+  const getLineDistance = (waveType: 'top' | 'middle' | 'bottom') => {
     if (typeof lineDistance === 'number') return lineDistance;
     if (!enabledWaves.includes(waveType)) return 0.1;
     const index = enabledWaves.indexOf(waveType);
@@ -385,10 +385,26 @@ export default function FloatingLines({
 
     const clock = new Clock();
 
+    let lastWidth = 0;
+    let lastHeight = 0;
+
     const setSize = () => {
       if (!active) return;
       const width = container.clientWidth || 1;
       const height = container.clientHeight || 1;
+
+      // Only resize if width changed OR height changed significantly (> 100px)
+      // This prevents flickering on mobile when the address bar hides/shows
+      const widthChanged = Math.abs(width - lastWidth) > 0;
+      const heightChanged = Math.abs(height - lastHeight) > 100;
+
+      if (lastWidth !== 0 && !widthChanged && !heightChanged) {
+        return;
+      }
+
+      lastWidth = width;
+      lastHeight = height;
+
       renderer.setSize(width, height, false);
       const canvasWidth = renderer.domElement.width;
       const canvasHeight = renderer.domElement.height;

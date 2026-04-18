@@ -211,9 +211,9 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       category: "iot",
       title: "IoT Project",
       subtitle: "Smart Real-Time Pill Dispensing System",
-      image: "images/IoT-project.jpg",
+      image: "images/IoT-project.jpeg",
       images: [
-        { src: "images/IoT-project.jpg", caption: "Smart Pill Dispensing System" },
+        { src: "images/IoT-project.jpeg", caption: "Smart Pill Dispensing System" },
         { src: "https://picsum.photos/seed/iot2/1200/800", caption: "IoT System Backend" }
       ]
     },
@@ -221,9 +221,9 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       category: "design",
       title: "LaFerrari RC",
       subtitle: "SolidWorks 3D Design Project",
-      image: "images/laferrari_rc.jpg",
+      image: "images/laferrari_rc.jpeg",
       images: [
-        { src: "images/laferrari_rc.jpg", caption: "LaFerrari RC Design" }
+        { src: "images/laferrari_rc.jpeg", caption: "LaFerrari RC Design" }
       ]
     },
     {
@@ -239,9 +239,9 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       category: "photography",
       title: "Photography",
       subtitle: "Personal Photography Interest",
-      image: "images/riding horse.jpg",
+      image: "images/riding horse.jpeg",
       images: [
-        { src: "images/riding horse.jpg", caption: "Horse Riding" }
+        { src: "images/riding horse.jpeg", caption: "Horse Riding" }
       ]
     },
     {
@@ -257,18 +257,18 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       category: "product",
       title: "Product Design",
       subtitle: "Slice and Scrape Innovation",
-      image: "images/slice and scrape.jpg",
+      image: "images/slice and scrape.jpeg",
       images: [
-        { src: "images/slice and scrape.jpg", caption: "Slice and Scrape Tool" }
+        { src: "images/slice and scrape.jpeg", caption: "Slice and Scrape Tool" }
       ]
     },
     {
       category: "volunteering",
       title: "Volunteering",
       subtitle: "Team Badhan Community Service",
-      image: "images/buet_badhan.jpg",
+      image: "images/buet_badhan.jpeg",
       images: [
-        { src: "images/buet_badhan.jpg", caption: "Volunteering with Badhan" }
+        { src: "images/buet_badhan.jpeg", caption: "Volunteering with Badhan" }
       ]
     }
   ],
@@ -317,7 +317,7 @@ When they said "industrial attachment," I pictured sitting in a conference room 
 
 For about 30 days, I was placed at **PRAN Industrial Park (PIP)** which is located in Palash, Ghorashal, Narsingdi, Bangladesh,  of **PRAN-RFL Group** as part of my academic program. Here's what the experience looked like from the inside.
 
-![Arriving at PRAN-RFL](/images/pip.jpg)
+![Arriving at PRAN-RFL](/images/pip.jpeg)
 
 ### **Team Kiwi**
 
@@ -358,7 +358,7 @@ Fast-paced, temperature-sensitive, and fascinating. Watching product move from r
 
 Similar rhythm, different requirements. The precision involved in dairy processing is impressive.
 
-![Dairy processing plant](/images/dairy.jpg)
+![Dairy processing plant](/images/dairy.jpeg)
 
 I'm planning to write separate posts diving deeper into what we saw at each plant — there's too much to cover in one go.
 
@@ -366,7 +366,7 @@ I'm planning to write separate posts diving deeper into what we saw at each plan
 
 One thing I hadn't expected to care about as much as I did: the **Effluent Treatment Plant (ETP)**. Seeing how industrial wastewater is processed and treated before being discharged into the river was genuinely sobering. It's the kind of thing that makes you think about environmental responsibility in a much more concrete way than any lecture ever could.
 
-![ETP wastewater treatment facility](/images/etp.jpg)
+![ETP wastewater treatment facility](/images/etp.jpeg)
 
 ### **The Moments In Between**
 
@@ -394,7 +394,7 @@ I won't pretend I wasn't nervous. But the presentation went well. Really well, a
 
 It was a good reminder that fresh eyes sometimes see things that experienced ones look past — and that it's worth speaking up when you have something to say.
 
-![Final presentation day](/images/presentation_day_pip.jpg)
+![Final presentation day](/images/presentation_day_pip.jpeg)
 
 More plant-specific posts coming soon. **Team Kiwi**, we did good.
   `
@@ -461,7 +461,7 @@ Likhbo pore `
       category: "Software & Tools",
       title: "Excel Skills for Business: Essentials",
       issuer: "Macquarie University",
-      image: "/images/excel.jpg",
+      image: "/images/excel.png",
       link: "https://coursera.org/share/61193c244b0d9c4592c694ede8497ac6",
       date: "2023"
     },
@@ -469,7 +469,7 @@ Likhbo pore `
       category: "Software & Tools",
       title: "Data Analysis using Microsoft Excel",
       issuer: "Coursera Project Network",
-      image: "/images/data_analysis.jpg",
+      image: "/images/data_analysis.png",
       link: "https://coursera.org/share/0588aabedb6581c4c75465b58dc1600f",
       date: "2025"
     },
@@ -477,21 +477,21 @@ Likhbo pore `
       category: "Extracurricular",
       title: "UCLG ASPAC Photo Contest Winner",
       issuer: "UCLG ASPAC",
-      image: "/images/uclg.jpg",
+      image: "/images/uclg.png",
       date: "2025"
     },
     {
       category: "Involvements",
       title: "Campus Ambassador at Three Zero Policy Hackathon ",
       issuer: "",
-      image: "/images/3zero.jpg",
+      image: "/images/3zero.png",
       date: "2025"
     },
     {
       category: "Academic",
       title: "Internship at Pran",
       issuer: "PRAN-RFL GROUP",
-      image: "/images/pran_certificate.jpg",
+      image: "/images/pran_certificate.png",
       date: "2025"
     }
   ],

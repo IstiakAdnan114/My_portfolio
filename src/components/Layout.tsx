@@ -13,16 +13,15 @@ interface LayoutProps {
 const NavLink = ({ to, children, onClick }: { to: string, children: ReactNode, onClick?: () => void }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
-  
+
   return (
-    <Link 
-      to={to} 
+    <Link
+      to={to}
       onClick={onClick}
-      className={`text-sm font-medium transition-colors ${
-        isActive 
-          ? "text-indigo-400 font-bold" 
-          : "text-gray-300 hover:text-indigo-400"
-      }`}
+      className={`text-sm font-medium transition-colors ${isActive
+        ? "text-indigo-400 font-bold"
+        : "text-gray-300 hover:text-indigo-400"
+        }`}
     >
       {children}
     </Link>
@@ -42,10 +41,10 @@ export default function Layout({ children }: LayoutProps) {
     <div className="min-h-screen transition-all duration-300 font-sans bg-[#0f172a] text-[#f1f5f9] relative overflow-x-hidden">
       <div className="fixed inset-0 pointer-events-none z-[0] tech-grid opacity-20"></div>
       <div className="fixed inset-0 pointer-events-none z-[0] tech-grid-sub opacity-30"></div>
-      
+
       <div className="fixed inset-0 pointer-events-none z-[1] opacity-60">
-        <FloatingLines 
-          linesGradient={["#6366f1", "#8b5cf6", "#4f46e5"]}
+        <FloatingLines
+          linesGradient={["#1d1710", "#202922", "#231c1d"]}
           enabledWaves={['top', 'middle', 'bottom']}
           lineCount={[15, 20, 25]}
           lineDistance={[10, 8, 6]}

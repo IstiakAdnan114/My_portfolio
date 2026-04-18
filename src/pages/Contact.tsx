@@ -38,29 +38,55 @@ export default function Contact() {
         </motion.div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 mb-16">
-          <motion.a 
-            href={`mailto:${portfolioData.email}`} 
+          <motion.div 
             whileHover={{ y: -10 }}
-            className="glass-card p-10 group bg-white/5 border border-white/10"
+            className="glass-card p-10 group bg-white/5 border border-white/10 relative"
           >
-            <div className="w-16 h-16 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
-              <Mail className="transition-transform group-hover:scale-110" size={32} />
+            <a 
+              href={`mailto:${portfolioData.email}`}
+              className="absolute inset-0 z-0"
+              aria-label="Email me"
+            ></a>
+            <div className="relative z-10 pointer-events-none">
+              <div className="w-16 h-16 bg-indigo-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-300">
+                <Mail className="transition-transform group-hover:scale-110" size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Email Address</h3>
+              <p className="text-gray-300 font-mono text-sm break-all">{portfolioData.email}</p>
+              <button 
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  navigator.clipboard.writeText(portfolioData.email);
+                  alert("Email copied to clipboard!");
+                }}
+                className="mt-4 text-xs text-indigo-400 hover:text-indigo-300 pointer-events-auto underline cursor-pointer"
+              >
+                Copy to clipboard
+              </button>
             </div>
-            <h3 className="text-xl font-bold mb-2">Email Address</h3>
-            <p className="text-gray-400 font-mono text-sm">{portfolioData.email}</p>
-          </motion.a>
+          </motion.div>
           
-          <motion.a 
-            href={`tel:${portfolioData.phone}`} 
+          <motion.div 
             whileHover={{ y: -10 }}
-            className="glass-card p-10 group bg-white/5 border border-white/10"
+            className="glass-card p-10 group bg-white/5 border border-white/10 relative"
           >
-            <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
-              <Phone className="transition-transform group-hover:scale-110" size={32} />
+            <a 
+              href={`tel:${portfolioData.phone}`}
+              className="absolute inset-0 z-0"
+              aria-label="Call me"
+            ></a>
+            <div className="relative z-10 pointer-events-none">
+              <div className="w-16 h-16 bg-purple-600/20 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:bg-purple-600 group-hover:text-white transition-all duration-300">
+                <Phone className="transition-transform group-hover:scale-110" size={32} />
+              </div>
+              <h3 className="text-xl font-bold mb-2">Mobile Number</h3>
+              <p className="text-gray-300 font-mono text-sm">{portfolioData.phone}</p>
+              <span className="mt-4 block text-xs text-purple-400 opacity-60">
+                Click to call
+              </span>
             </div>
-            <h3 className="text-xl font-bold mb-2">Mobile Number</h3>
-            <p className="text-gray-400 font-mono text-sm">{portfolioData.phone}</p>
-          </motion.a>
+          </motion.div>
         </div>
 
         <div className="flex flex-wrap justify-center gap-6 mb-16">

@@ -9,6 +9,8 @@ export const portfolioData = {
   email: "adnanistiak111@gmail.com",
   phone: "+880 1884562034",
   location: "BUET, Palashi, Dhaka",
+  avatarUrl: "images/Adnan Professional.jpg",
+  cvUrl: "https://drive.google.com/file/d/1N1-FjFOOFUVbZElVqLHl2h5di6PA1i-1/view?usp=sharing", // Add your CV link here (e.g., Google Drive link or file path)
   quote: "It is never too late to be who you might have been",
   socials: {
     linkedin: "https://linkedin.com/in/istiak-adnan",
@@ -44,9 +46,22 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
   ],
   experience: [
     {
+      role: "Industrial Attachment Trainee",
+      company: "PRAN-RFL Group",
+      period: "Nov 2025 – Dec 2025",
+      points: [
+        "Exposed to 5+ manufacturing sections across 6+ production lines including Frozen Food, Dairy, and RM–PM operations.",
+        "Conducted time study in Frozen Food section, collecting stochastic process data to model cycle time variability and identify statistical inefficiencies.",
+        "Applied Monte Carlo simulation to quantify production loss under stochastic demand and process variability.",
+        "Identified 3–4 bottlenecks in material flow and layout through throughput analysis and proposed data-driven process modifications.",
+        "Identified manual visual inspection inefficiencies and proposed image processing techniques to automate quality control."
+      ],
+      color: "green"
+    },
+    {
       role: "Growth Fellow",
       company: "ResearchBuddy AI (Part-time)",
-      period: "September 2024 - Present",
+      period: "Sept 2025 - Jan 2026",
       points: [
         "Facilitate collaboration among students at my university with ResearchBuddy AI",
         "Create and share attractive posts and content",
@@ -289,77 +304,133 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
   blogPosts: [
     {
       id: 1,
-      title: "The Future of Lean Manufacturing in Industry 4.0",
-      excerpt: "Exploring how traditional lean principles are evolving with the integration of IoT and AI in modern industrial settings.",
+      title: "#",
+      excerpt: "#",
       date: "Oct 15, 2025",
       category: "Manufacturing",
       image: "https://picsum.photos/seed/lean/1200/800",
       content: `
-# The Intersection of Lean & Industry 4.0
-
-In the modern industrial landscape, the traditional principles of **Lean Manufacturing**—originally developed by Toyota—are undergoing a massive transformation. As we move into the era of **Industry 4.0**, the integration of the Internet of Things (IoT), Big Data, and Artificial Intelligence (AI) is providing new ways to eliminate waste and optimize value.
-
-### Key Evolutions:
-
-1. **Real-time Waste Identification**: Traditionally, Lean relied on manual observation (Gemba walks). Today, IoT sensors provide real-time data on machine downtime, bottlenecking, and inventory levels.
-2. **Predictive Maintenance**: Instead of scheduled maintenance, AI models can predict when a machine is likely to fail, significantly reducing unplanned downtime—a core Lean objective.
-3. **Data-Driven Kaizen**: Continuous improvement (Kaizen) is no longer based on intuition but on high-fidelity data analytics.
-
-### The Human Element
-
-Despite the automation, the 'Respect for People' pillar of Lean remains vital. Technology should empower workers, providing them with better tools and insights to solve problems more effectively.
-
-As an Industrial Engineer, I believe the future lies in **Lean 4.0**—where the efficiency of Lean meets the connectivity of Industry 4.0.
-      `
+Likhbo pore `
     },
     {
       id: 2,
-      title: "My Journey as a Growth Fellow at ResearchBuddy AI",
-      excerpt: "Reflecting on the challenges and successes of promoting AI-driven research collaboration among university students.",
+      title: "30 Days at PRAN-RFL: A Student's Industrial Journey",
+      excerpt: "From utility plants to ETP systems — what a month-long industrial attachment at one of Bangladesh's largest conglomerates taught me about how industries actually work.",
       date: "Sep 20, 2025",
       category: "Experience",
-      image: "https://picsum.photos/seed/ai/1200/800",
+      image: "/images/pip_attachment_experience.jpg",
       content: `
-# Empowering Research with AI
+# **30 Days at PRAN-RFL: What I Learned on the Factory Floor**
 
-Joining **ResearchBuddy AI** as a Growth Fellow has been one of the most rewarding experiences of my academic journey. My primary goal was to bridge the gap between advanced AI tools and the student research community at BUET.
+When they said "industrial attachment," I pictured sitting in a conference room watching PowerPoints. What actually happened was far more interesting — and honestly, far more valuable.
 
-### What We Accomplished:
+For about 30 days, I was placed at **PRAN Industrial Park (PIP)** which is located in Palash, Ghorashal, Narsingdi, Bangladesh,  of **PRAN-RFL Group** as part of my academic program. Here's what the experience looked like from the inside.
 
-* **Workshop Series**: Organized three major workshops introducing students to AI-driven literature reviews.
-* **Content Creation**: Developed a series of promotional videos and posts that reached over 2,000 students.
-* **Community Building**: Facilitated a support network where students can share tips on using AI ethically in their research.
+![Arriving at PRAN-RFL](/images/pip.jpeg)
 
-### Lessons Learned:
+### **Team Kiwi**
 
-The biggest takeaway for me was that **communication is key**. Explaining complex AI concepts in a way that highlights practical benefits to a student's daily work is much more effective than focusing on technical jargon.
+Four of us made up **Team Kiwi** — three of us, including myself, were placed at PRAN, and the fourth was at RFL.
 
-I am excited to continue this journey and see how AI will further revolutionize the way we conduct research in the coming years.
-      `
+When work was done, we were together. Exploring, eating, crossing the river by boat, making the most of whatever free time we had. The different postings during the day didn't stop us from spending the rest of it as a group — and honestly, that dynamic made the whole experience a lot more enjoyable than it might have been otherwise.
+
+The accommodation itself was great — a proper guest room, spacious and well-maintained. For students, it felt like a step up. Something I genuinely appreciated.
+
+![Team Kiwi at the guest house](/images/team_kiwi.jpg)
+
+### **The Plant Visits**
+
+The core of the attachment was visiting five major areas of the facility. Each one gave us a different lens into how a large-scale food and consumer goods company actually runs day-to-day.
+
+**Utilities**
+
+This was probably the most eye-opening stop. Understanding what powers and sustains the entire operation from the ground up changes how you see everything else. Without utilities, nothing moves.
+
+![Utilities plant floor](/images/utility_electricity.jpg)
+
+**RM/PM Store & Inventory Control**
+
+We got a look at how raw materials and packaging materials are managed, tracked, and controlled before they ever reach production. A lot of invisible work happens here.
+
+
+**Quality Control**
+
+Standards, testing, checks at every stage. You realize pretty quickly that "quality" isn't just a department — it's baked into the whole process.
+
+
+**Frozen Food Plant**
+
+Fast-paced, temperature-sensitive, and fascinating. Watching product move from raw input to packaged output at scale is something you can't quite grasp from a textbook.
+
+
+**Dairy Plant**
+
+Similar rhythm, different requirements. The precision involved in dairy processing is impressive.
+
+![Dairy processing plant](/images/dairy.jpeg)
+
+I'm planning to write separate posts diving deeper into what we saw at each plant — there's too much to cover in one go.
+
+### **The ETP Plant**
+
+One thing I hadn't expected to care about as much as I did: the **Effluent Treatment Plant (ETP)**. Seeing how industrial wastewater is processed and treated before being discharged into the river was genuinely sobering. It's the kind of thing that makes you think about environmental responsibility in a much more concrete way than any lecture ever could.
+
+![ETP wastewater treatment facility](/images/etp.jpeg)
+
+### **The Moments In Between**
+
+It wasn't all factory floors and clipboards. Team Kiwi made the most of the free time too — we explored the surrounding area, crossed the river by boat, took pictures, just wandered around together. Simple stuff, but those are the moments you actually remember.
+
+![Crossing the river by boat](/images/kiwi_fun.jpg)
+
+### **A Few Things Worth Mentioning**
+
+Not everything was perfect, and I think it's worth being honest about that too.
+
+The workload on the floor workers was visibly heavy. Long hours, repetitive tasks, and what seemed like a lot of pressure to keep the line moving. And from what we gathered, the pay for many of these workers doesn't quite reflect the effort they put in every single day.
+
+These are the people who actually keep everything running — from the utilities to the dairy floor — and it's hard to watch an operation that efficient without wondering if the people powering it are being fairly taken care of.
+
+I genuinely hope the management reflects on this. A company as large and successful as PRAN-RFL has more than enough reason — and I'd argue, responsibility — to ensure that growth doesn't come at the cost of the people on the ground. Profit matters, but so do the workers making it possible.
+
+Here's hoping the future looks a little fairer for them.
+
+### **The Final Presentation**
+
+At the end of the attachment, we had to present our observations and suggest improvements to the management team — including the CTO.
+
+I won't pretend I wasn't nervous. But the presentation went well. Really well, actually. The CTO paused to specifically ask the room to applaud for two of the ideas I shared. That's not something I expected, and it's not something I'll forget quickly.
+
+It was a good reminder that fresh eyes sometimes see things that experienced ones look past — and that it's worth speaking up when you have something to say.
+
+![Final presentation day](/images/presentation_day_pip.jpeg)
+
+More plant-specific posts coming soon. **Team Kiwi**, we did good.
+  `
     }
   ],
   publications: [
     {
       type: "Poster",
       title: "Smart Real-time Monitoring and Control of Pill Dispensing and Packaging Process for Pharmaceutical Industries Using IoT and Embedded Systems",
-      authors: "Md. Istiak Adnan, Khaja Mohammad Nasir Uddin, Md. Tasdikul Islam, and Tanvir Azam",
-      journal: "ResearchGate (Preprint)",
-      year: "2024",
+      authors: "Rakonuzzaman, M., Adnan, M. I., Rahman, M. S., Rahman, T., Saki, M. S. A., Maruf, I. H., & Ahmad, N.",
+      journal: "ResearchGate (Poster)",
+      year: "2025",
       link: "https://www.researchgate.net/publication/394411020_Smart_Real-time_Monitoring_and_Control_of_Pill_Dispensing_and_Packaging_Process_for_Pharmaceutical_Industries_Using_IoT_and_Embedded_Systems",
       status: "Published"
     },
     {
       type: "Conference",
-      title: "Optimization of Multi-Functional Vegetable Cutter Design using Functional Decomposition",
-      authors: "Md. Istiak Adnan, Team Slice & Scrape",
-      journal: "International Conference on Industrial Engineering",
+      title: "Stochastic Modeling of Throughput-Quality Dynamics in Labor-Intensive Manufacturing: A Comparative Analysis of Operator Fatigue and Process Instability",
+      authors: "Fuad, M. M., Mazid, A. A., Adnan, M. I., & Ammar, K.",
+      journal: "International Conference on Industrial Engineering and Operations Management",
       year: "2025",
-      link: "#",
-      status: "Accepted"
+      link: "https://doi.org/10.46254/BA08.20250379",
+      status: "Published"
     },
     {
       type: "Under Review",
-      title: "Sustainable Manufacturing Frameworks for SME Plastic Industries in Bangladesh",
+      title: "-",
       authors: "Md. Istiak Adnan",
       journal: "Journal of Cleaner Production",
       year: "2025",
@@ -368,7 +439,7 @@ I am excited to continue this journey and see how AI will further revolutionize 
     },
     {
       type: "Working Paper",
-      title: "AI-Driven Quality Control in Precision Casting: A Case Study",
+      title: "-",
       authors: "Md. Istiak Adnan, ResearchBuddy AI Team",
       journal: "Internal Working Paper",
       year: "2025",
@@ -379,17 +450,9 @@ I am excited to continue this journey and see how AI will further revolutionize 
   certifications: [
     {
       category: "Professional",
-      title: "Six Sigma Green Belt",
+      title: "Lean & Quality Management, Six Sigma, Continuous Improvement",
       issuer: "MTF Institute",
-      image: "https://www.udemy.com/certificate/UC-e1a82dbe-6626-47ba-abff-f4271534db0f/", // Note: In reality this would be an image of the cert
-      link: "https://www.udemy.com/certificate/UC-e1a82dbe-6626-47ba-abff-f4271534db0f/",
-      date: "2025"
-    },
-    {
-      category: "Professional",
-      title: "Lean & Quality Management",
-      issuer: "MTF Institute",
-      image: "https://picsum.photos/seed/lean-cert/800/600",
+      image: "/images/lean.jpg", // Note: In reality this would be an image of the cert
       link: "https://www.udemy.com/certificate/UC-e1a82dbe-6626-47ba-abff-f4271534db0f/",
       date: "2025"
     },
@@ -397,7 +460,7 @@ I am excited to continue this journey and see how AI will further revolutionize 
       category: "Software & Tools",
       title: "Excel Skills for Business: Essentials",
       issuer: "Macquarie University",
-      image: "https://picsum.photos/seed/excel-cert/800/600",
+      image: "/images/excel.png",
       link: "https://coursera.org/share/61193c244b0d9c4592c694ede8497ac6",
       date: "2023"
     },
@@ -405,7 +468,7 @@ I am excited to continue this journey and see how AI will further revolutionize 
       category: "Software & Tools",
       title: "Data Analysis using Microsoft Excel",
       issuer: "Coursera Project Network",
-      image: "https://picsum.photos/seed/data-cert/800/600",
+      image: "/images/data_analysis.png",
       link: "https://coursera.org/share/0588aabedb6581c4c75465b58dc1600f",
       date: "2025"
     },
@@ -413,29 +476,30 @@ I am excited to continue this journey and see how AI will further revolutionize 
       category: "Extracurricular",
       title: "UCLG ASPAC Photo Contest Winner",
       issuer: "UCLG ASPAC",
-      image: "https://picsum.photos/seed/photo-cert/800/600",
+      image: "/images/uclg.png",
       date: "2025"
     },
     {
-        category: "Academic",
-        title: "PMP Training",
-        issuer: "Project Management Institute",
-        image: "https://picsum.photos/seed/pmp-cert/800/600",
-        date: "2024"
-      }
+      category: "Involvements",
+      title: "Campus Ambassador at Three Zero Policy Hackathon ",
+      issuer: "",
+      image: "/images/3zero.png",
+      date: "2025"
+    },
+    {
+      category: "Academic",
+      title: "Internship at Pran",
+      issuer: "PRAN-RFL GROUP",
+      image: "/images/pran_certificate.png",
+      date: "2025"
+    }
   ],
   notices: [
     {
-      title: "Upcoming Workshop on SolidWorksSurfacing",
-      content: "Join me next Monday for an intensive session on advanced 3D surfacing techniques.",
-      date: "Oct 25, 2025",
+      title: "Open to Work 👀",
+      content: "Graduating soon and on the lookout for a lucrative opportunity. If you think I'd be a good fit for your team, let's talk! 😁",
+      date: "Apr 18, 2026",
       priority: "high"
-    },
-    {
-      title: "New Project: Sustainable Product Design",
-      content: "Thrilled to announce the start of a new collaboration focused on circular economy principles.",
-      date: "Oct 18, 2025",
-      priority: "normal"
     }
   ]
 };

@@ -1,7 +1,7 @@
 import { motion } from "motion/react";
-import { 
-  Cpu, Layout, Rocket, Terminal, Box, Lightbulb, 
-  Brain, Users, Clock, Handshake, MessageSquare, BarChart, 
+import {
+  Cpu, Layout, Rocket, Terminal, Box, Lightbulb,
+  Brain, Users, Clock, Handshake, MessageSquare, BarChart,
   FileSpreadsheet, Video, DraftingCompass, Frame
 } from "lucide-react";
 import { portfolioData } from "../data";
@@ -28,7 +28,7 @@ export default function Skills() {
   return (
     <section className="py-24 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
@@ -38,7 +38,7 @@ export default function Skills() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           {/* Technical */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             className="glass-card p-10 bg-white/5 border border-white/10"
@@ -47,11 +47,11 @@ export default function Skills() {
               <Terminal className="mr-3 text-indigo-400" /> Technical Arsenal
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {portfolioData.skills.technical.map((skill, idx) => {
+              {portfolioData.skills?.technical?.map((skill, idx) => {
                 const Icon = iconMap[skill.icon] || Box;
                 return (
-                  <motion.div 
-                    key={idx} 
+                  <motion.div
+                    key={idx}
                     whileHover={{ y: -5, scale: 1.05 }}
                     className="flex flex-col items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-indigo-500/30 transition-all group"
                   >
@@ -64,7 +64,7 @@ export default function Skills() {
           </motion.div>
 
           {/* Soft Skills */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             className="glass-card p-10 bg-white/5 border border-white/10"
@@ -73,11 +73,11 @@ export default function Skills() {
               <Users className="mr-3 text-purple-400" /> Human Skills
             </h3>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-6">
-              {portfolioData.skills.soft.map((skill, idx) => {
+              {portfolioData.skills?.soft?.map((skill, idx) => {
                 const Icon = iconMap[skill.icon] || Box;
                 return (
-                  <motion.div 
-                    key={idx} 
+                  <motion.div
+                    key={idx}
                     whileHover={{ y: -5, scale: 1.05 }}
                     className="flex flex-col items-center p-4 rounded-2xl bg-white/5 border border-white/5 hover:border-purple-500/30 transition-all group"
                   >

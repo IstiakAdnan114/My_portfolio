@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "motion/react";
-import { Mail, Github, Linkedin, MapPin, ArrowDown, Play, Pause } from "lucide-react";
+import { Mail, Github, Linkedin, MapPin, ArrowDown, Play, Pause, Download } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { portfolioData } from "../data";
 import ProfileCard from "../components/ProfileCard";
@@ -68,7 +68,7 @@ export default function Home() {
             title={portfolioData.title}
             handle="adnanistiak111"
             status="Available for work"
-            avatarUrl="https://picsum.photos/seed/adnan/600/600"
+            avatarUrl={portfolioData.avatarUrl}
             contactText="Get in Touch"
             onContactClick={() => navigate("/contact")}
             behindGlowEnabled={true}
@@ -105,6 +105,22 @@ export default function Home() {
         >
           {portfolioData.about.split('\n')[0]}
         </motion.p>
+
+        <motion.div
+          initial={{ y: 20, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ delay: 0.8 }}
+          className="mb-10"
+        >
+          <a
+            href={portfolioData.cvUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-indigo-500/20"
+          >
+            <Download size={18} className="mr-2" /> Download CV
+          </a>
+        </motion.div>
 
         <div className="flex justify-center space-x-4 mb-8">
           <a href={portfolioData.socials.linkedin} target="_blank" className="p-3 glass-card rounded-full hover:scale-110"><Linkedin /></a>

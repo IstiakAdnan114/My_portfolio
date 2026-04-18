@@ -143,7 +143,7 @@ export default function Certifications() {
       {/* Image Lightbox */}
       <AnimatePresence>
         {selectedImage && (
-          <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-[2000] flex items-center justify-center p-4">
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
@@ -155,19 +155,23 @@ export default function Certifications() {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
-              className="relative max-w-5xl w-full max-h-[90vh] overflow-hidden rounded-2xl shadow-2xl"
+              className="relative z-[2010] max-w-[95vw] max-h-[90vh] flex items-center justify-center cursor-zoom-out"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedImage(null);
+              }}
             >
               <img 
                 src={selectedImage} 
                 alt="Certificate" 
-                className="w-full h-full object-contain"
+                className="max-w-full max-h-[90vh] object-contain rounded-lg shadow-2xl bg-white/5"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
             {/* Simple Floating Close Button for Certifications */}
             <button 
               onClick={() => setSelectedImage(null)}
-              className="fixed top-20 right-6 z-[1100] group flex items-center justify-center w-14 h-14 bg-red-600 hover:bg-red-700 text-white shadow-2xl rounded-full transition-all hover:scale-110 active:scale-95 border-2 border-white/40 glow-red"
+              className="fixed top-20 right-6 z-[2100] group flex items-center justify-center w-14 h-14 bg-red-600 hover:bg-red-700 text-white shadow-2xl rounded-full transition-all hover:scale-110 active:scale-95 border-2 border-white/40 glow-red"
             >
               <X size={28} className="group-hover:rotate-90 transition-transform duration-300" />
             </button>

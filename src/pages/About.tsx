@@ -6,16 +6,16 @@ export default function About() {
   return (
     <section className="py-24 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <motion.h2 
+        <motion.h2
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
         >
           About My Journey
         </motion.h2>
-        
+
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <motion.div 
+          <motion.div
             initial={{ x: -30, opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             className="glass-card p-8 bg-white/5 border border-white/10"
@@ -30,7 +30,7 @@ export default function About() {
               <GraduationCap className="mr-3 text-indigo-400" /> Education
             </h3>
             {portfolioData.education.map((edu, idx) => (
-              <motion.div 
+              <motion.div
                 key={idx}
                 initial={{ x: 30, opacity: 0 }}
                 animate={{ x: 0, opacity: 1 }}
@@ -39,7 +39,7 @@ export default function About() {
               >
                 <h4 className="font-bold text-lg text-indigo-400">{edu.institution}</h4>
                 <p className="text-gray-300">{edu.degree}</p>
-                <span className="text-sm text-gray-400 font-mono tracking-tighter">{edu.period}</span>
+                <span className="text-sm text-white-400 font-mono tracking-tighter">{edu.period}</span>
               </motion.div>
             ))}
           </div>

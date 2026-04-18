@@ -6,7 +6,7 @@ export default function Publications() {
   const categories = ["Journal", "Conference", "Poster", "Under Review", "Working Paper"];
 
   const formatAuthors = (authors: string) => {
-    const name = "Md. Istiak Adnan";
+    const name = " Adnan, M. I.";
     if (!authors.includes(name)) return authors;
     
     const parts = authors.split(name);

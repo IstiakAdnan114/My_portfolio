@@ -305,16 +305,6 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
   blogPosts: [
     {
       id: 1,
-      title: "#",
-      excerpt: "#",
-      date: "Oct 15, 2025",
-      category: "Manufacturing",
-      image: "https://picsum.photos/seed/lean/1200/800",
-      content: `
-Likhbo pore `
-    },
-    {
-      id: 2,
       title: "30 Days at PRAN-RFL: A Student's Industrial Journey",
       excerpt: "From utility plants to ETP systems — what a month-long industrial attachment at one of Bangladesh's largest conglomerates taught me about how industries actually work.",
       date: "Sep 20, 2025",
@@ -408,6 +398,16 @@ It was a good reminder that fresh eyes sometimes see things that experienced one
 
 More plant-specific posts coming soon. **Team Kiwi**, we did good.
   `
+    },
+    {
+      id: 2,
+      title: "#",
+      excerpt: "#",
+      date: "Oct 15, 2025",
+      category: "Manufacturing",
+      image: "https://picsum.photos/seed/lean/1200/800",
+      content: `
+Likhbo pore `
     }
   ],
   publications: [

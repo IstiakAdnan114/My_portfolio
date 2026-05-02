@@ -7,7 +7,7 @@ export const portfolioData = {
   name: "Md. Istiak Adnan",
   title: "Industrial & Production Engineer",
   email: "adnanistiak111@gmail.com",
-  phone: "+880 1884562034",
+  phone: "+8801884562034",
   location: "BUET, Palashi, Dhaka",
   avatarUrl: "images/Adnan Professional.jpg",
   cvUrl: "https://drive.google.com/file/d/1N1-FjFOOFUVbZElVqLHl2h5di6PA1i-1/view?usp=sharing", // Add your CV link here (e.g., Google Drive link or file path)

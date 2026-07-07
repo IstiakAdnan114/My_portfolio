@@ -10,7 +10,7 @@ export const portfolioData = {
   phone: "+8801884562034",
   location: "BUET, Palashi, Dhaka",
   avatarUrl: "images/Adnan Professional.jpg",
-  cvUrl: "https://drive.google.com/file/d/1N1-FjFOOFUVbZElVqLHl2h5di6PA1i-1/view?usp=sharing", // Add your CV link here (e.g., Google Drive link or file path)
+  cvUrl: "https://drive.google.com/file/d/1unMI1EeA80gQqcDXh_oCAjVC4B-5pwmK/view?usp=sharing", // Add your CV link here (e.g., Google Drive link or file path)
   quote: "It is never too late to be who you might have been",
   socials: {
     linkedin: "https://linkedin.com/in/istiak-adnan",
@@ -19,16 +19,13 @@ export const portfolioData = {
     researchgate: "https://www.researchgate.net/profile/Md-Istiak-Adnan",
     grabcad: "https://grabcad.com/md.istiak.adnan-1"
   },
-  about: `I am Adnan, a final-year Industrial and Production Engineering student at Bangladesh University of Engineering and Technology (BUET) with a strong passion for manufacturing, materials science, operations management, and quality control. My academic journey has given me a solid foundation in industrial processes, while my hands-on projects—ranging from product design challenges to IoT-based automation systems—have strengthened my ability to solve real-world problems with creativity and precision.
-
-Beyond academics, I have gained valuable experience through case competitions, campus outreach, and voluntary initiatives, which have sharpened my leadership, teamwork, and communication skills. I enjoy exploring new technologies, building meaningful projects, and connecting with people from diverse backgrounds.
-
-I am driven by curiosity and a desire to bridge engineering knowledge with practical impact, whether in industry, research, or innovation.`,
+  about: `Recent Industrial and Production Engineering graduate from BUET with a strong foundation in manufacturing systems, operations management, machine learning, and quality control. Author of two peer-reviewed conference publications spanning stochastic modeling and NLP-based e-government analysis, alongside a ResearchGate poster on IoT-based pharmaceutical packaging, with an ongoing journal paper derived from an undergraduate thesis on automated colour recipe recommendation for reactive knit fabric dyeing using real industrial data. Hands-on industry experience includes Monte Carlo simulation and time study work at PRAN-RFL Group, complemented by part-time academic work at Udvash Academic and Admission Care. Proficient in Python, LaTeX, AutoCAD, SolidWorks, and core ML libraries, with a versatile technical skill set applicable across engineering, analytics, and operations domains. Driven by a desire to bridge engineering knowledge with practical impact, with a keen interest in applied research and innovation across industry and operations domains.
+`,
   education: [
     {
       institution: "Bangladesh University of Engineering and Technology (BUET)",
       degree: "Department of Industrial and Production Engineering",
-      period: "2021 - Present",
+      period: "2021 - 2026",
       color: "indigo"
     },
     {
@@ -145,7 +142,7 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
     },
     {
       category: "Languages",
-      items: ["Bengali (Native)", "English", "Hindi"]
+      items: ["Bengali (Native)", "English (Professional)", "Hindi (Conversational)"]
     }
   ],
   projects: [
@@ -155,8 +152,8 @@ I am driven by curiosity and a desire to bridge engineering knowledge with pract
       tags: ["HTML", "CSS", "JavaScript", "AI"],
       period: "Aug 2025 – Sep 2025",
       links: [
-        { name: "Portfolio", url: "https://istiakadnan114.github.io/mdistiak_adnan/", type: "external" },
-        { name: "Github", url: "https://github.com/IstiakAdnan114/mdistiak_adnan/blob/main/index.html", type: "github" }
+        { name: "Portfolio", url: "https://my-portfolio-adnan.vercel.app/", type: "external" },
+        { name: "Github", url: "https://github.com/IstiakAdnan114/My_portfolio", type: "github" }
       ],
       icon: "user",
       color: "red"
@@ -429,6 +426,15 @@ Likhbo pore `
       status: "Published"
     },
     {
+      type: "Conference",
+      title: "eGov-Lens: A Multi-Dimensional Machine Learning Approach to Aspect-Based Public Feedback Analysis on Bengali e-Government Platforms",
+      authors: "Fuad, M. M., Mazid, A. A., Adnan, M. I., Das, T., Prapti, S. S., & Mahbub, N.",
+      journal: "2025 28th International Conference on Computer and Information Technology (ICCIT)",
+      year: "2025",
+      link: "https://doi.org/10.1109/ICCIT68739.2025.11491291",
+      status: "Published"
+    },
+    {
       type: "Under Review",
       title: "-",
       authors: "Md. Istiak Adnan",
@@ -439,12 +445,12 @@ Likhbo pore `
     },
     {
       type: "Working Paper",
-      title: "-",
-      authors: "Md. Istiak Adnan, ResearchBuddy AI Team",
-      journal: "Internal Working Paper",
+      title: "A Hybrid Data-Driven Framework for Reactive Dye Recipe Recommendation in Textile Dyeing: A Case Study on Cotton and Blended Knit Fabrics",
+      authors: "Fuad, M. M., Adnan, M. I., & Al Aziz, R.",
+      journal: "TBD",
       year: "2025",
-      link: "#",
-      status: "In Progress"
+      link: "",
+      status: "In Preparation"
     }
   ],
   certifications: [
@@ -496,9 +502,9 @@ Likhbo pore `
   ],
   notices: [
     {
-      title: "Open to Work 👀",
-      content: "Graduating soon and on the lookout for a lucrative opportunity. If you think I'd be a good fit for your team, let's talk! 😁",
-      date: "Apr 18, 2026",
+      title: "Open to Work",
+      content: "Recently graduated and actively seeking full-time opportunities across engineering, analytics, and operations. Open to meaningful roles where I can contribute and grow — feel free to reach out!",
+      date: "June 15, 2026",
       priority: "high"
     }
   ]

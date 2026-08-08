@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { portfolioData } from "../data";
 import {
   fetchRemoteDraft,
@@ -15,9 +15,32 @@ export type PortfolioContent = typeof portfolioData;
 const PUBLISHED_KEY = "portfolio-cms-published-v1";
 const DRAFT_KEY = "portfolio-cms-draft-v1";
 const LOCAL_AUTH_KEY = "portfolio-cms-owner-password-v1";
+const SYNC_CHANNEL = "portfolio-cms-published-sync-v1";
 const defaults = structuredClone(portfolioData);
 
 const clone = <T,>(value: T): T => structuredClone(value);
+
+function mergeWithDefaults<T>(fallback: T, saved: unknown): T {
+  if (Array.isArray(fallback)) return (Array.isArray(saved) ? clone(saved) : clone(fallback)) as T;
+  if (fallback && typeof fallback === "object") {
+    const source = saved && typeof saved === "object" && !Array.isArray(saved) ? saved as Record<string, unknown> : {};
+    return Object.fromEntries(Object.entries(fallback as Record<string, unknown>).map(([key, value]) => [key, mergeWithDefaults(value, source[key])])) as T;
+  }
+  return (saved === undefined || saved === null ? fallback : saved) as T;
+}
+
+const normalizeContent = (content: unknown): PortfolioContent => {
+  const normalized = mergeWithDefaults(defaults, content);
+  const savedContact = content && typeof content === "object"
+    ? (content as any)?.site?.pageCopy?.contact
+    : null;
+  // Existing installations used this field for a Google Forms link/button.
+  // When the new form fields are absent, migrate that legacy button copy.
+  if (!savedContact?.formHeading && savedContact?.messageButton === "Drop a Message") {
+    normalized.site.pageCopy.contact.messageButton = defaults.site.pageCopy.contact.messageButton;
+  }
+  return normalized;
+};
 
 function readLocal<T>(key: string): T | null {
   try {
@@ -72,15 +95,38 @@ interface CmsContextValue {
 const CmsContext = createContext<CmsContextValue | null>(null);
 
 export function ContentProvider({ children }: { children: ReactNode }) {
-  const [published, setPublished] = useState<PortfolioContent>(() => readLocal(PUBLISHED_KEY) ?? clone(defaults));
-  const [draft, setDraftState] = useState<PortfolioContent>(() => readLocal(DRAFT_KEY) ?? readLocal(PUBLISHED_KEY) ?? clone(defaults));
+  const [published, setPublished] = useState<PortfolioContent>(() => normalizeContent(readLocal(PUBLISHED_KEY) ?? defaults));
+  const [draft, setDraftState] = useState<PortfolioContent>(() => normalizeContent(readLocal(DRAFT_KEY) ?? readLocal(PUBLISHED_KEY) ?? defaults));
   const [ready, setReady] = useState(!isSupabaseConfigured);
   const [authenticated, setAuthenticated] = useState(false);
   const [localOwnerExists, setLocalOwnerExists] = useState(() => Boolean(localStorage.getItem(LOCAL_AUTH_KEY)));
+  const syncChannel = useRef<BroadcastChannel | null>(null);
 
   useEffect(() => {
     replacePublishedObject(published);
   }, [published]);
+
+  useEffect(() => {
+    const receivePublished = (content: PortfolioContent) => {
+      const normalized = normalizeContent(content);
+      replacePublishedObject(normalized);
+      setPublished(clone(normalized));
+    };
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key !== PUBLISHED_KEY || !event.newValue) return;
+      try { receivePublished(JSON.parse(event.newValue) as PortfolioContent); } catch { /* Ignore malformed external data. */ }
+    };
+    window.addEventListener("storage", handleStorage);
+    if (typeof BroadcastChannel !== "undefined") {
+      syncChannel.current = new BroadcastChannel(SYNC_CHANNEL);
+      syncChannel.current.onmessage = event => receivePublished(event.data as PortfolioContent);
+    }
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      syncChannel.current?.close();
+      syncChannel.current = null;
+    };
+  }, []);
 
   useEffect(() => {
     if (!isSupabaseConfigured || !supabase) return;
@@ -89,15 +135,16 @@ export function ContentProvider({ children }: { children: ReactNode }) {
       try {
         const remote = await fetchRemotePublished<PortfolioContent>();
         if (active && remote) {
-          replacePublishedObject(remote);
-          setPublished(remote);
+          const normalized = normalizeContent(remote);
+          replacePublishedObject(normalized);
+          setPublished(normalized);
         }
         const { data } = await supabase.auth.getSession();
         if (active) {
           setAuthenticated(Boolean(data.session));
           if (data.session) {
             const remoteDraft = await fetchRemoteDraft<PortfolioContent>();
-            if (remoteDraft) setDraftState(clone(remoteDraft));
+            if (remoteDraft) setDraftState(normalizeContent(remoteDraft));
           }
         }
       } finally {
@@ -112,7 +159,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     if (!isSupabaseConfigured) localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
   }, [draft]);
 
-  const setDraft = (content: PortfolioContent) => setDraftState(clone(content));
+  const setDraft = (content: PortfolioContent) => setDraftState(normalizeContent(content));
 
   const saveDraft = async () => {
     if (isSupabaseConfigured) await saveRemoteDraft(draft);
@@ -127,6 +174,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
     replacePublishedObject(draft);
     setPublished(clone(draft));
+    syncChannel.current?.postMessage(clone(draft));
   };
 
   const resetDraft = async () => {
@@ -157,7 +205,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         throw new Error("This account is not the configured owner.");
       }
       const remoteDraft = await fetchRemoteDraft<PortfolioContent>();
-      setDraftState(clone(remoteDraft ?? published));
+      setDraftState(normalizeContent(remoteDraft ?? published));
       setAuthenticated(true);
       return;
     }

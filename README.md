@@ -66,12 +66,15 @@ demo mode and asks you to create a password on first use. The dashboard can:
 - edit profile details, page headings, buttons, navigation, and the site palette;
 - add, delete, and reorder education, experience, skills, projects,
   publications, certifications, achievements, blog posts, notices, and photos;
+- receive visitor contact-form submissions in the dashboard message inbox,
+  mark them read or unread, reply by email, search, and delete them;
 - upload images, save drafts, publish changes, and import/export JSON backups.
 
 ### Connect Supabase later
 
 1. Create a Supabase project and run [`supabase/schema.sql`](supabase/schema.sql)
-   in its SQL editor.
+   in its SQL editor. Re-run the file after pulling updates to create the
+   contact-message table and policies; the script is safe to run repeatedly.
 2. In Supabase Authentication, create the owner user and disable public user
    sign-ups for this single-owner portfolio.
 3. Copy `.env.example` to `.env.local` and add `VITE_SUPABASE_URL`,

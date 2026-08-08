@@ -69,6 +69,20 @@
 .admin-action.secondary:hover { background: rgba(255,255,255,0.08); color: white; }
 .admin-action.danger { border: 1px solid rgba(244,63,94,0.25); background: rgba(244,63,94,0.08); color: #fda4af; }
 
+.contact-input {
+  width: 100%;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 23, 42, 0.72);
+  padding: 0.85rem 1rem;
+  color: var(--text-primary);
+  outline: none;
+  transition: 160ms ease;
+}
+
+.contact-input::placeholder { color: #64748b; }
+.contact-input:focus { border-color: var(--primary-color); box-shadow: 0 0 0 3px color-mix(in srgb, var(--primary-color) 18%, transparent); }
+
 @layer base {
   :root {
     --primary-color: #6366f1;

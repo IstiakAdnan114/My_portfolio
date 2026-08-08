@@ -37,7 +37,19 @@ export const portfolioData = {
       certifications: { badge: "My Credentials", heading: "Licenses & Certifications", description: "A track record of continuous learning, workshops, and verified professional achievements." },
       notices: { badge: "LIVE NEWSFEED", heading: "Announcement Board", description: "Stay updated with my latest workshops, collaborations, and project launches." },
       photos: { heading: "Visual Memories", description: "A glimpse into my life outside of engineering—travels, volunteering, and photography." },
-      contact: { heading: "Let's Build Together", description: "I'm currently exploring new opportunities in Industrial Production Engineering and Automation. Let's start a conversation!", messageButton: "Drop a Message", messageUrl: "https://forms.gle/P8e7CxcbHiDF539F9" }
+      contact: {
+        heading: "Let's Build Together",
+        description: "I'm currently exploring new opportunities in Industrial Production Engineering and Automation. Let's start a conversation!",
+        formHeading: "Send Me a Message",
+        formDescription: "Have an opportunity, idea, or question? Write to me directly and I will get back to you by email.",
+        nameLabel: "Your name",
+        emailLabel: "Your email",
+        subjectLabel: "Subject",
+        messageLabel: "Message",
+        messageButton: "Send Message",
+        successTitle: "Message sent",
+        successMessage: "Thank you for reaching out. Your message is now in my inbox."
+      }
     }
   },
   name: "Md. Istiak Adnan",

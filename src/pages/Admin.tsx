@@ -1,11 +1,16 @@
-import { useMemo, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowDown, ArrowUp, Check, ChevronDown, ChevronRight, Download, ExternalLink,
   Eye, FileJson, ImagePlus, Loader2, LockKeyhole, LogOut, Palette, Plus, RotateCcw,
-  Save, Settings, ShieldCheck, Trash2, Upload, UserRound, Wifi, WifiOff
+  Save, Settings, ShieldCheck, Trash2, Upload, UserRound, Wifi, WifiOff, Inbox,
+  MailOpen, Mail, RefreshCw, Reply, Search, Clock
 } from "lucide-react";
 import { useCms, type PortfolioContent } from "../cms/ContentProvider";
+import {
+  deleteContactMessage, fetchContactMessages, MESSAGE_EVENT, setMessageRead,
+  type ContactMessage
+} from "../cms/messages";
 
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -23,6 +28,7 @@ const sectionLabels: Record<string, string> = {
   blogPosts: "Blog posts",
   notices: "Notices",
   photos: "Photo galleries",
+  messages: "Message inbox",
 };
 
 const profileKeys = ["name", "title", "email", "phone", "location", "avatarUrl", "cvUrl", "quote", "about", "socials"];
@@ -208,7 +214,7 @@ function AdminDashboard() {
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
-  const sectionKeys = useMemo(() => ["profile", "site", ...Object.keys(cms.draft).filter(key => !profileKeys.includes(key) && key !== "site"), "account"], [cms.draft]);
+  const sectionKeys = useMemo(() => ["profile", "messages", "site", ...Object.keys(cms.draft).filter(key => !profileKeys.includes(key) && key !== "site"), "account"], [cms.draft]);
 
   const update = (path: (string | number)[], value: JsonValue) => cms.setDraft(setAtPath(cms.draft, path, value));
   const run = async (name: string, action: () => Promise<void>, success: string) => {
@@ -225,7 +231,7 @@ function AdminDashboard() {
   };
   const activeFields = section === "profile"
     ? profileKeys.map(key => [key, (cms.draft as any)[key]] as const)
-    : section === "account" ? [] : [[section, (cms.draft as any)[section]]] as const;
+    : section === "account" || section === "messages" ? [] : [[section, (cms.draft as any)[section]]] as const;
 
   return (
     <div className="admin-shell min-h-screen text-slate-100">
@@ -251,12 +257,16 @@ function AdminDashboard() {
           {cms.mode === "local-demo" && <div className="mb-6 rounded-2xl border border-amber-500/20 bg-amber-500/10 p-4 text-sm text-amber-100"><strong>Demo mode:</strong> everything works, but content is stored only in this browser. Adding your Supabase values switches the same dashboard to secure cloud storage.</div>}
           <div className="flex flex-col xl:flex-row xl:items-center justify-between gap-5 mb-8">
             <div><p className="text-xs font-black text-indigo-300 uppercase tracking-[0.2em] mb-2">Editing</p><h1 className="text-3xl font-bold">{sectionLabels[section] ?? titleCase(section)}</h1></div>
-            <div className="flex flex-wrap gap-2">
+            {section !== "messages" && <div className="flex flex-wrap gap-2">
               <button onClick={() => void run("save", cms.saveDraft, "Draft saved.")} className="admin-action secondary">{busy === "save" ? <Loader2 className="animate-spin" size={17} /> : <Save size={17} />} Save draft</button>
               <button onClick={() => void run("publish", cms.publish, "Published successfully.")} className="admin-action primary">{busy === "publish" ? <Loader2 className="animate-spin" size={17} /> : <Check size={17} />} Publish changes</button>
               <Link to="/" target="_blank" className="admin-action secondary"><Eye size={17} /> View site</Link>
-            </div>
+            </div>}
           </div>
+
+          {section !== "messages" && <div className="mb-6 rounded-xl border border-sky-500/20 bg-sky-500/10 px-4 py-3 text-sm text-sky-100">
+            Your typing is kept as a draft. Click <strong>Publish changes</strong> to update the public website; already-open website tabs will refresh their content automatically.
+          </div>}
 
           {notice && <div className="mb-6 rounded-xl border border-indigo-500/20 bg-indigo-500/10 text-indigo-100 px-4 py-3 text-sm">{notice}</div>}
 
@@ -266,7 +276,7 @@ function AdminDashboard() {
             <div className="rounded-2xl border border-white/10 p-4"><Eye className="text-indigo-300 mb-3" /><p className="font-bold">Navigation</p><p className="text-xs text-slate-500 mt-1">Rename, reorder, or hide links.</p></div>
           </div>}
 
-          {section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : <div className="space-y-5">
+          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : <div className="space-y-5">
             {activeFields.map(([key, value]) => <FieldEditor key={key} label={key} value={value as JsonValue} path={[key]} onChange={update} onUpload={cms.upload} />)}
           </div>}
 
@@ -288,6 +298,87 @@ function AdminDashboard() {
       </div>
     </div>
   );
+}
+
+function MessagesInbox({ mode }: { mode: "local-demo" | "supabase" }) {
+  const [messages, setMessages] = useState<ContactMessage[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [query, setQuery] = useState("");
+  const [filter, setFilter] = useState<"all" | "unread" | "read">("all");
+  const [expanded, setExpanded] = useState<string | null>(null);
+  const [deletePending, setDeletePending] = useState<string | null>(null);
+
+  const load = useCallback(async () => {
+    setLoading(true); setError("");
+    try { setMessages(await fetchContactMessages()); }
+    catch (reason) { setError(reason instanceof Error ? reason.message : "Unable to load messages."); }
+    finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    void load();
+    const onChange = () => void load();
+    window.addEventListener(MESSAGE_EVENT, onChange);
+    const onStorage = (event: StorageEvent) => { if (event.key === "portfolio-cms-contact-messages-v1") void load(); };
+    window.addEventListener("storage", onStorage);
+    return () => { window.removeEventListener(MESSAGE_EVENT, onChange); window.removeEventListener("storage", onStorage); };
+  }, [load]);
+
+  const unread = messages.filter(item => item.status === "unread").length;
+  const visible = messages.filter(item => {
+    if (filter !== "all" && item.status !== filter) return false;
+    const haystack = `${item.name} ${item.email} ${item.subject} ${item.message}`.toLowerCase();
+    return haystack.includes(query.trim().toLowerCase());
+  });
+
+  const toggleMessage = async (item: ContactMessage) => {
+    const opening = expanded !== item.id;
+    setExpanded(opening ? item.id : null);
+    if (opening && item.status === "unread") {
+      await setMessageRead(item.id, true);
+      await load();
+    }
+  };
+
+  return <div className="space-y-6">
+    {mode === "local-demo" && <div className="rounded-xl border border-amber-500/20 bg-amber-500/10 text-amber-100 px-4 py-3 text-sm">Demo inbox: submissions are shared only between tabs in this browser. Supabase makes them permanent and accessible from any device.</div>}
+    <div className="grid sm:grid-cols-3 gap-3">
+      <div className="rounded-2xl border border-white/10 p-5"><Inbox className="text-indigo-300 mb-3" /><p className="text-2xl font-black">{messages.length}</p><p className="text-xs text-slate-500 uppercase tracking-widest">Total messages</p></div>
+      <div className="rounded-2xl border border-white/10 p-5"><Mail className="text-amber-300 mb-3" /><p className="text-2xl font-black">{unread}</p><p className="text-xs text-slate-500 uppercase tracking-widest">Unread</p></div>
+      <div className="rounded-2xl border border-white/10 p-5"><MailOpen className="text-emerald-300 mb-3" /><p className="text-2xl font-black">{messages.length - unread}</p><p className="text-xs text-slate-500 uppercase tracking-widest">Read</p></div>
+    </div>
+
+    <div className="flex flex-col md:flex-row gap-3">
+      <label className="relative flex-1"><Search size={17} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" /><input aria-label="Search messages" value={query} onChange={e => setQuery(e.target.value)} placeholder="Search name, email, subject, or message" className="admin-input !pl-10" /></label>
+      <div className="flex gap-2">
+        {(["all", "unread", "read"] as const).map(option => <button key={option} onClick={() => setFilter(option)} className={`admin-action ${filter === option ? "primary" : "secondary"}`}>{titleCase(option)}</button>)}
+        <button onClick={() => void load()} className="admin-icon-btn" title="Refresh messages"><RefreshCw size={17} className={loading ? "animate-spin" : ""} /></button>
+      </div>
+    </div>
+
+    {error && <div className="rounded-xl border border-red-500/20 bg-red-500/10 text-red-200 px-4 py-3">{error}</div>}
+    {loading && messages.length === 0 ? <div className="py-16 flex items-center justify-center"><Loader2 className="animate-spin text-indigo-300" /></div> : visible.length === 0 ? <div className="rounded-2xl border border-dashed border-white/10 py-16 text-center"><Inbox size={34} className="mx-auto text-slate-600 mb-4" /><p className="font-bold text-slate-300">No messages found</p><p className="text-sm text-slate-500 mt-2">New contact-form submissions will appear here.</p></div> : <div className="space-y-3">
+      {visible.map(item => <article key={item.id} className={`rounded-2xl border transition ${item.status === "unread" ? "border-indigo-500/35 bg-indigo-500/[0.06]" : "border-white/10 bg-white/[0.025]"}`}>
+        <button onClick={() => void toggleMessage(item)} className="w-full p-5 text-left flex items-start gap-4">
+          <div className={`mt-1 w-10 h-10 shrink-0 rounded-xl flex items-center justify-center ${item.status === "unread" ? "bg-indigo-500/20 text-indigo-300" : "bg-white/5 text-slate-500"}`}>{item.status === "unread" ? <Mail size={18} /> : <MailOpen size={18} />}</div>
+          <div className="min-w-0 flex-1"><div className="flex flex-wrap items-center justify-between gap-2"><p className={`truncate ${item.status === "unread" ? "font-black text-white" : "font-semibold text-slate-300"}`}>{item.name} <span className="font-normal text-slate-500">&lt;{item.email}&gt;</span></p><span className="text-xs text-slate-500 flex items-center gap-1"><Clock size={12} />{new Date(item.created_at).toLocaleString()}</span></div><p className="font-bold text-sm mt-2">{item.subject}</p><p className="text-sm text-slate-400 mt-1 line-clamp-2">{item.message}</p></div>
+          <ChevronDown className={`shrink-0 text-slate-500 transition ${expanded === item.id ? "rotate-180" : ""}`} size={18} />
+        </button>
+        {expanded === item.id && <div className="border-t border-white/10 px-5 py-5 ml-0 sm:ml-14">
+          <p className="whitespace-pre-wrap leading-relaxed text-slate-200">{item.message}</p>
+          <div className="flex flex-wrap gap-2 mt-6">
+            <a href={`mailto:${item.email}?subject=${encodeURIComponent(`Re: ${item.subject}`)}`} className="admin-action primary"><Reply size={16} /> Reply by email</a>
+            <button onClick={async () => { await setMessageRead(item.id, item.status !== "read"); await load(); }} className="admin-action secondary">{item.status === "read" ? <Mail size={16} /> : <MailOpen size={16} />}{item.status === "read" ? "Mark unread" : "Mark read"}</button>
+            {deletePending === item.id ? <>
+              <button onClick={async () => { await deleteContactMessage(item.id); setDeletePending(null); setExpanded(null); await load(); }} className="admin-action danger"><Trash2 size={16} /> Confirm delete</button>
+              <button onClick={() => setDeletePending(null)} className="admin-action secondary">Cancel</button>
+            </> : <button onClick={() => setDeletePending(item.id)} className="admin-action danger"><Trash2 size={16} /> Delete</button>}
+          </div>
+        </div>}
+      </article>)}
+    </div>}
+  </div>;
 }
 
 function AccountSettings({ onChangePassword, mode }: { onChangePassword: (password: string) => Promise<void>; mode: "local-demo" | "supabase" }) {

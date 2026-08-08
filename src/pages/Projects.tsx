@@ -28,7 +28,7 @@ export default function Projects() {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent"
         >
-          Featured Projects
+          {portfolioData.site.pageCopy.projects.heading}
         </motion.h2>
 
         <div className="space-y-6">

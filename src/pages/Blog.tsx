@@ -13,10 +13,10 @@ export default function Blog() {
             animate={{ opacity: 1, x: 0 }}
           >
             <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent">
-              Blog & Insights
+              {portfolioData.site.pageCopy.blog.heading}
             </h2>
             <p className="text-gray-400 max-w-xl text-lg">
-              Exploring the intersections of Industrial Engineering, automation, and the digital future.
+              {portfolioData.site.pageCopy.blog.description}
             </p>
           </motion.div>
           

@@ -30,10 +30,10 @@ export default function Contact() {
           animate={{ opacity: 1, y: 0 }}
         >
           <h2 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-white via-indigo-200 to-white bg-clip-text text-transparent">
-            Let's Build Together
+            {portfolioData.site.pageCopy.contact.heading}
           </h2>
           <p className="text-xl text-gray-400 mb-16 max-w-2xl mx-auto leading-relaxed">
-            I'm currently exploring new opportunities in Industrial Production Engineering and Automation. Let's start a conversation!
+            {portfolioData.site.pageCopy.contact.description}
           </p>
         </motion.div>
 
@@ -102,8 +102,8 @@ export default function Contact() {
           whileTap={{ scale: 0.95 }}
           className="mb-16"
         >
-          <a href="https://forms.gle/P8e7CxcbHiDF539F9" target="_blank" className="inline-flex items-center px-10 py-5 bg-white text-indigo-900 font-black rounded-2xl hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all uppercase tracking-widest text-xs">
-            <MessageSquare className="mr-3" size={20} /> Drop a Message
+          <a href={portfolioData.site.pageCopy.contact.messageUrl} target="_blank" className="inline-flex items-center px-10 py-5 bg-white text-indigo-900 font-black rounded-2xl hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] transition-all uppercase tracking-widest text-xs">
+            <MessageSquare className="mr-3" size={20} /> {portfolioData.site.pageCopy.contact.messageButton}
           </a>
         </motion.div>
       </div>

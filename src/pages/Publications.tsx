@@ -28,13 +28,13 @@ export default function Publications() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
-            <BookOpen size={14} /> My Research
+            <BookOpen size={14} /> {portfolioData.site.pageCopy.publications.badge}
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            Publications & Research
+            {portfolioData.site.pageCopy.publications.heading}
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
-            A comprehensive list of journals, conference papers, and active research items exploring industrial optimization and AI integration.
+            {portfolioData.site.pageCopy.publications.description}
           </p>
         </motion.div>
 

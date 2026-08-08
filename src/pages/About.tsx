@@ -11,7 +11,7 @@ export default function About() {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
         >
-          About My Journey
+          {portfolioData.site.pageCopy.about.heading}
         </motion.h2>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
@@ -27,7 +27,7 @@ export default function About() {
 
           <div className="space-y-6">
             <h3 className="text-2xl font-bold mb-6 flex items-center text-white">
-              <GraduationCap className="mr-3 text-indigo-400" /> Education
+              <GraduationCap className="mr-3 text-indigo-400" /> {portfolioData.site.pageCopy.about.educationHeading}
             </h3>
             {portfolioData.education.map((edu, idx) => (
               <motion.div

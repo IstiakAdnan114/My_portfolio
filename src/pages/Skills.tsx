@@ -21,7 +21,7 @@ export default function Skills() {
           animate={{ opacity: 1, scale: 1 }}
           className="text-3xl md:text-5xl font-bold text-center mb-20 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
         >
-          Expertise & Skills
+          {portfolioData.site.pageCopy.skills.heading}
         </motion.h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

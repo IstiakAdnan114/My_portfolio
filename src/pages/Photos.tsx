@@ -37,10 +37,10 @@ export default function Photos() {
             <Camera size={32} />
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
-            Visual Memories
+            {portfolioData.site.pageCopy.photos.heading}
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto mb-16 text-lg">
-            A glimpse into my life outside of engineering—travels, volunteering, and photography.
+            {portfolioData.site.pageCopy.photos.description}
           </p>
         </motion.div>
         

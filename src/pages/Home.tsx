@@ -66,10 +66,10 @@ export default function Home() {
           <ProfileCard
             name={portfolioData.name}
             title={portfolioData.title}
-            handle="adnanistiak111"
-            status="Available for work"
+            handle={portfolioData.site.pageCopy.home.handle}
+            status={portfolioData.site.pageCopy.home.status}
             avatarUrl={portfolioData.avatarUrl}
-            contactText="Get in Touch"
+            contactText={portfolioData.site.pageCopy.home.contactButton}
             onContactClick={() => navigate("/contact")}
             behindGlowEnabled={true}
             behindGlowColor="rgba(99, 102, 241, 0.4)"
@@ -118,7 +118,7 @@ export default function Home() {
             rel="noopener noreferrer"
             className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-indigo-500/20"
           >
-            <Download size={18} className="mr-2" /> Download CV
+            <Download size={18} className="mr-2" /> {portfolioData.site.pageCopy.home.cvButton}
           </a>
         </motion.div>
 

@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react";
 import { portfolioData } from "../data";
 import LightRays from "./LightRays";
 import FloatingLines from "./FloatingLines";
+import { useCms } from "../cms/ContentProvider";
 
 interface LayoutProps {
   children: ReactNode;
@@ -29,8 +30,11 @@ const NavLink = ({ to, children, onClick }: { to: string, children: ReactNode, o
 };
 
 export default function Layout({ children }: LayoutProps) {
+  useCms();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigation = portfolioData.site.navigation.filter(item => item.visible);
+  const theme = portfolioData.site.theme;
 
   // Scroll to top on route change
   useEffect(() => {
@@ -38,8 +42,8 @@ export default function Layout({ children }: LayoutProps) {
   }, [location]);
 
   return (
-    <div className="min-h-screen font-sans bg-[#0f172a] text-[#f1f5f9] relative overflow-x-hidden">
-      <div className="fixed inset-0 pointer-events-none z-[0] bg-[#0f172a] tech-grid opacity-20"></div>
+    <div className="min-h-screen font-sans text-[#f1f5f9] relative overflow-x-hidden" style={{ backgroundColor: theme.background, color: theme.text }}>
+      <div className="fixed inset-0 pointer-events-none z-[0] tech-grid opacity-20" style={{ backgroundColor: theme.background }}></div>
       <div className="fixed inset-0 pointer-events-none z-[0] tech-grid-sub opacity-30"></div>
 
       <div className="fixed inset-0 pointer-events-none z-[1] opacity-40">
@@ -63,7 +67,7 @@ export default function Layout({ children }: LayoutProps) {
       <div className="fixed inset-0 pointer-events-none z-[3] overflow-hidden opacity-30">
         <LightRays
           raysOrigin="top-center"
-          raysColor="#6366f1"
+          raysColor={theme.primary}
           raysSpeed={0.3}
           lightSpread={0.6}
           rayLength={2.0}
@@ -74,24 +78,14 @@ export default function Layout({ children }: LayoutProps) {
       </div>
 
       {/* Navigation */}
-      <header className="fixed top-0 z-[100] w-full bg-[#0f172a]/95 backdrop-blur-md border-b border-white/10">
+      <header className="fixed top-0 z-[100] w-full backdrop-blur-md border-b border-white/10" style={{ backgroundColor: `${theme.background}f2` }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
             {portfolioData.name.toUpperCase()}
           </Link>
 
           <div className="hidden md:flex items-center space-x-6">
-            <NavLink to="/">Home</NavLink>
-            <NavLink to="/about">About</NavLink>
-            <NavLink to="/experience">Experience</NavLink>
-            <NavLink to="/skills">Skills</NavLink>
-            <NavLink to="/projects">Projects</NavLink>
-            <NavLink to="/publications">Publications</NavLink>
-            <NavLink to="/blog">Blog</NavLink>
-            <NavLink to="/certifications">Certifications</NavLink>
-            <NavLink to="/notices">Notices</NavLink>
-            <NavLink to="/photos">Photos</NavLink>
-            <NavLink to="/contact">Contact</NavLink>
+            {navigation.map(item => <NavLink key={item.path} to={item.path}>{item.label}</NavLink>)}
           </div>
 
           <div className="md:hidden flex items-center">
@@ -111,17 +105,7 @@ export default function Layout({ children }: LayoutProps) {
               className="md:hidden bg-[#0f172a]/98 backdrop-blur-2xl border-t border-white/10 overflow-hidden"
             >
               <div className="flex flex-col p-4 space-y-4">
-                <NavLink to="/" onClick={() => setIsMenuOpen(false)}>Home</NavLink>
-                <NavLink to="/about" onClick={() => setIsMenuOpen(false)}>About</NavLink>
-                <NavLink to="/experience" onClick={() => setIsMenuOpen(false)}>Experience</NavLink>
-                <NavLink to="/skills" onClick={() => setIsMenuOpen(false)}>Skills</NavLink>
-                <NavLink to="/projects" onClick={() => setIsMenuOpen(false)}>Projects</NavLink>
-                <NavLink to="/publications" onClick={() => setIsMenuOpen(false)}>Publications</NavLink>
-                <NavLink to="/blog" onClick={() => setIsMenuOpen(false)}>Blog</NavLink>
-                <NavLink to="/certifications" onClick={() => setIsMenuOpen(false)}>Certifications</NavLink>
-                <NavLink to="/notices" onClick={() => setIsMenuOpen(false)}>Notices</NavLink>
-                <NavLink to="/photos" onClick={() => setIsMenuOpen(false)}>Photos</NavLink>
-                <NavLink to="/contact" onClick={() => setIsMenuOpen(false)}>Contact</NavLink>
+                {navigation.map(item => <NavLink key={item.path} to={item.path} onClick={() => setIsMenuOpen(false)}>{item.label}</NavLink>)}
               </div>
             </motion.div>
           )}

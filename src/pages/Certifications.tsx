@@ -22,13 +22,13 @@ export default function Certifications() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
-            <Award size={14} /> My Credentials
+            <Award size={14} /> {portfolioData.site.pageCopy.certifications.badge}
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-            Licenses & Certifications
+            {portfolioData.site.pageCopy.certifications.heading}
           </h2>
           <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-            A track record of continuous learning, workshops, and verified professional achievements.
+            {portfolioData.site.pageCopy.certifications.description}
           </p>
         </motion.div>
 

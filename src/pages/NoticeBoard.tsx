@@ -22,13 +22,13 @@ export default function NoticeBoard() {
           className="text-center mb-16"
         >
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-red-500/15 border border-red-500/20 text-red-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6 animate-pulse">
-            <Bell size={14} /> LIVE NEWSFEED
+            <Bell size={14} /> {portfolioData.site.pageCopy.notices.badge}
           </div>
           <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
-            Announcement Board
+            {portfolioData.site.pageCopy.notices.heading}
           </h2>
           <p className="text-gray-400 text-lg">
-            Stay updated with my latest workshops, collaborations, and project launches.
+            {portfolioData.site.pageCopy.notices.description}
           </p>
         </motion.div>
         

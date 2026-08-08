@@ -58,6 +58,27 @@ All content is managed through a single file: `src/data.ts`.
 3. **Manage Skills** — Follow the categorical structure in the `skills` object to update technical or language proficiency.
 4. **Blog Posts** — Add Markdown-formatted content to the `blogPosts` array to create new industrial journey entries.
 
+## Owner dashboard (no code required)
+
+Open `/admin` on the website. Without Supabase values, the app runs in local
+demo mode and asks you to create a password on first use. The dashboard can:
+
+- edit profile details, page headings, buttons, navigation, and the site palette;
+- add, delete, and reorder education, experience, skills, projects,
+  publications, certifications, achievements, blog posts, notices, and photos;
+- upload images, save drafts, publish changes, and import/export JSON backups.
+
+### Connect Supabase later
+
+1. Create a Supabase project and run [`supabase/schema.sql`](supabase/schema.sql)
+   in its SQL editor.
+2. In Supabase Authentication, create the owner user and disable public user
+   sign-ups for this single-owner portfolio.
+3. Copy `.env.example` to `.env.local` and add `VITE_SUPABASE_URL`,
+   `VITE_SUPABASE_ANON_KEY`, and optionally `VITE_OWNER_EMAIL`.
+4. Restart the development server. The dashboard automatically changes from
+   local demo mode to Supabase-backed authentication, content, and media.
+
 ---
 
 ## 🏗️ Getting Started

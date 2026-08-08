@@ -13,6 +13,8 @@ import Photos from "./pages/Photos";
 import Contact from "./pages/Contact";
 import BlogDetail from "./pages/BlogDetail";
 import Publications from "./pages/Publications";
+import Admin from "./pages/Admin";
+import { ContentProvider } from "./cms/ContentProvider";
 
 export default function App() {
   useEffect(() => {
@@ -21,9 +23,12 @@ export default function App() {
   }, []);
 
   return (
-    <Router>
-      <Layout>
+    <ContentProvider>
+      <Router>
         <Routes>
+          <Route path="/admin/*" element={<Admin />} />
+          <Route path="*" element={<Layout>
+            <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
           <Route path="/experience" element={<Experience />} />
@@ -36,8 +41,10 @@ export default function App() {
           <Route path="/contact" element={<Contact />} />
           <Route path="/publications" element={<Publications />} />
           <Route path="/blog/:id" element={<BlogDetail />} />
+            </Routes>
+          </Layout>} />
         </Routes>
-      </Layout>
-    </Router>
+      </Router>
+    </ContentProvider>
   );
 }

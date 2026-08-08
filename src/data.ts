@@ -4,6 +4,42 @@
  */
 
 export const portfolioData = {
+  site: {
+    theme: {
+      primary: "#6366f1",
+      secondary: "#8b5cf6",
+      accent: "#f59e0b",
+      background: "#0f172a",
+      surface: "#111827",
+      text: "#f1f5f9"
+    },
+    navigation: [
+      { label: "Home", path: "/", visible: true },
+      { label: "About", path: "/about", visible: true },
+      { label: "Experience", path: "/experience", visible: true },
+      { label: "Skills", path: "/skills", visible: true },
+      { label: "Projects", path: "/projects", visible: true },
+      { label: "Publications", path: "/publications", visible: true },
+      { label: "Blog", path: "/blog", visible: true },
+      { label: "Certifications", path: "/certifications", visible: true },
+      { label: "Notices", path: "/notices", visible: true },
+      { label: "Photos", path: "/photos", visible: true },
+      { label: "Contact", path: "/contact", visible: true }
+    ],
+    pageCopy: {
+      home: { handle: "adnanistiak111", status: "Available for work", contactButton: "Get in Touch", cvButton: "Download CV" },
+      about: { heading: "About My Journey", educationHeading: "Education" },
+      experience: { heading: "My Journey", professionalHeading: "Professional Experience", leadershipHeading: "Leadership & Service" },
+      skills: { heading: "Expertise & Skills" },
+      projects: { heading: "Featured Projects" },
+      publications: { badge: "My Research", heading: "Publications & Research", description: "A comprehensive list of journals, conference papers, and active research items exploring industrial optimization and AI integration." },
+      blog: { heading: "Blog & Insights", description: "Exploring the intersections of Industrial Engineering, automation, and the digital future." },
+      certifications: { badge: "My Credentials", heading: "Licenses & Certifications", description: "A track record of continuous learning, workshops, and verified professional achievements." },
+      notices: { badge: "LIVE NEWSFEED", heading: "Announcement Board", description: "Stay updated with my latest workshops, collaborations, and project launches." },
+      photos: { heading: "Visual Memories", description: "A glimpse into my life outside of engineering—travels, volunteering, and photography." },
+      contact: { heading: "Let's Build Together", description: "I'm currently exploring new opportunities in Industrial Production Engineering and Automation. Let's start a conversation!", messageButton: "Drop a Message", messageUrl: "https://forms.gle/P8e7CxcbHiDF539F9" }
+    }
+  },
   name: "Md. Istiak Adnan",
   title: "Industrial & Production Engineer",
   email: "adnanistiak111@gmail.com",

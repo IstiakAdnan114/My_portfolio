@@ -18,14 +18,14 @@ export default function Experience() {
           animate={{ opacity: 1, y: 0 }}
           className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
         >
-          My Journey
+          {portfolioData.site.pageCopy.experience.heading}
         </motion.h2>
         
         {/* Professional Experience Section */}
         <div className="mb-20">
           <h3 className="text-2xl font-bold text-white mb-10 flex items-center">
             <span className="w-8 h-1 bg-indigo-500 mr-4 rounded-full"></span>
-            Professional Experience
+            {portfolioData.site.pageCopy.experience.professionalHeading}
           </h3>
           <div className="relative border-l-2 border-indigo-900 ml-4 lg:ml-8 space-y-12">
             {professionalExp.map((exp, idx) => (
@@ -61,7 +61,7 @@ export default function Experience() {
         <div>
           <h3 className="text-2xl font-bold text-white mb-10 flex items-center">
             <span className="w-8 h-1 bg-purple-500 mr-4 rounded-full"></span>
-            Leadership & Service
+            {portfolioData.site.pageCopy.experience.leadershipHeading}
           </h3>
           <div className="relative border-l-2 border-purple-900 ml-4 lg:ml-8 space-y-12">
             {leadershipExp.map((exp, idx) => (

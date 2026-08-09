@@ -1,4 +1,5 @@
 import { createClient, SupabaseClient } from "@supabase/supabase-js";
+import { optimizeImageForUpload } from "./imageOptimization";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL?.trim();
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY?.trim();
@@ -53,18 +54,20 @@ export async function publishRemote(content: unknown) {
 }
 
 export async function uploadMedia(file: File): Promise<string> {
+  const optimizedFile = await optimizeImageForUpload(file);
+
   if (!supabase) {
     return await new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.onload = () => resolve(String(reader.result));
       reader.onerror = () => reject(reader.error);
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(optimizedFile);
     });
   }
 
-  const extension = file.name.split(".").pop() || "bin";
+  const extension = optimizedFile.name.split(".").pop() || "bin";
   const path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${extension}`;
-  const { error } = await supabase.storage.from("portfolio-media").upload(path, file, {
+  const { error } = await supabase.storage.from("portfolio-media").upload(path, optimizedFile, {
     cacheControl: "3600",
     upsert: false,
   });

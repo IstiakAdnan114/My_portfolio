@@ -1,8 +1,7 @@
-import { ReactNode, useState, useEffect } from "react";
+import { Fragment, ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
 import { ArrowRight, Menu, X } from "lucide-react";
-import { portfolioData } from "../data";
 import LightRays from "./LightRays";
 import FloatingLines from "./FloatingLines";
 import { useCms } from "../cms/ContentProvider";
@@ -33,15 +32,15 @@ const NavLink = ({ to, children, onClick }: { to: string, children: ReactNode, o
 };
 
 export default function Layout({ children }: LayoutProps) {
-  useCms();
+  const { published, publishedRevision } = useCms();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const navigation = portfolioData.site.navigation.filter(item => item.visible);
-  const theme = portfolioData.site.theme;
+  const navigation = published.site.navigation.filter(item => item.visible);
+  const theme = published.site.theme;
   const currentNavigationIndex = navigation.findIndex(item => item.path === location.pathname);
   const currentNavigationItem = currentNavigationIndex >= 0 ? navigation[currentNavigationIndex] : null;
   const blogPost = location.pathname.startsWith("/blog/")
-    ? portfolioData.blogPosts.find(post => `/blog/${post.id}` === location.pathname)
+    ? published.blogPosts.find(post => `/blog/${post.id}` === location.pathname)
     : null;
   const pageTitle = blogPost?.title ?? currentNavigationItem?.label ?? "Portfolio";
   const nextNavigationItem = currentNavigationIndex >= 0 && navigation.length > 1
@@ -55,8 +54,8 @@ export default function Layout({ children }: LayoutProps) {
 
   // Give every route its own browser-tab title while keeping the page design unchanged.
   useEffect(() => {
-    document.title = `${pageTitle} | ${portfolioData.name}`;
-  }, [pageTitle, portfolioData.name]);
+    document.title = `${pageTitle} | ${published.name}`;
+  }, [pageTitle, published.name]);
 
   return (
     <div className="min-h-screen font-sans text-[#f1f5f9] relative overflow-x-hidden" style={{ backgroundColor: theme.background, color: theme.text }}>
@@ -98,7 +97,7 @@ export default function Layout({ children }: LayoutProps) {
       <header className="fixed top-0 z-[100] w-full backdrop-blur-md border-b border-white/10" style={{ backgroundColor: `${theme.background}f2` }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
           <Link to="/" className="text-xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(165,180,252,0.28)] hover:from-indigo-200 hover:to-purple-200 transition-all">
-            {portfolioData.name.toUpperCase()}
+            {published.name.toUpperCase()}
           </Link>
 
           <div className="hidden md:flex items-center space-x-6">
@@ -130,7 +129,7 @@ export default function Layout({ children }: LayoutProps) {
       </header>
 
       <main className="pt-16 relative z-10">
-        {children}
+        <Fragment key={publishedRevision}>{children}</Fragment>
         {nextNavigationItem && (
           <nav aria-label="Continue to next page" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-2 flex justify-end">
             <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
@@ -153,7 +152,7 @@ export default function Layout({ children }: LayoutProps) {
 
       <footer className="py-12 border-t border-white/10 glass mt-12">
         <div className="max-w-7xl mx-auto px-4 text-center">
-          <p className="text-gray-400 text-sm">© {new Date().getFullYear()} {portfolioData.name}. All rights reserved.</p>
+          <p className="text-gray-400 text-sm">© {new Date().getFullYear()} {published.name}. All rights reserved.</p>
         </div>
       </footer>
     </div>

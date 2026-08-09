@@ -12,6 +12,7 @@ import {
   type ContactMessage
 } from "../cms/messages";
 import BlogPostsEditor from "../components/admin/BlogPostsEditor";
+import EducationEditor from "../components/admin/EducationEditor";
 
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -333,7 +334,7 @@ function AdminDashboard() {
             <div className="rounded-2xl border border-white/10 p-4"><Eye className="text-indigo-300 mb-3" /><p className="font-bold">Navigation</p><p className="text-xs text-slate-500 mt-1">Rename, reorder, or hide links.</p></div>
           </div>}
 
-          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : section === "blogPosts" ? <BlogPostsEditor posts={cms.draft.blogPosts} onChange={blogPosts => cms.setDraft({ ...cms.draft, blogPosts })} onUpload={cms.upload} /> : <div className="space-y-5">
+          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : section === "blogPosts" ? <BlogPostsEditor posts={cms.draft.blogPosts} onChange={blogPosts => cms.setDraft({ ...cms.draft, blogPosts })} onUpload={cms.upload} /> : section === "education" ? <EducationEditor education={cms.draft.education} onChange={education => cms.setDraft({ ...cms.draft, education })} /> : <div className="space-y-5">
             {activeFields.map(([key, value]) => <FieldEditor key={key} label={key} value={value as JsonValue} path={[key]} onChange={update} onUpload={cms.upload} />)}
           </div>}
 

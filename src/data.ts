@@ -75,21 +75,191 @@ export const portfolioData = {
   education: [
     {
       institution: "Bangladesh University of Engineering and Technology (BUET)",
-      degree: "Department of Industrial and Production Engineering",
+      degree: "B.Sc. in Industrial and Production Engineering (IPE)",
       period: "2021 - 2026",
-      color: "indigo"
+      color: "indigo",
+      detailsLabel: "Explore IPE curriculum",
+      detailsTitle: "What I studied in Industrial & Production Engineering",
+      detailsIntro: "My BUET education combined manufacturing engineering, operations research, product design, quality, automation, management, and applied analytical methods. The catalogue below highlights the principal professional courses and what each area covered.",
+      catalogueUrl: "https://ipe.buet.ac.bd/undergraduate-courses",
+      courses: [
+        {
+          code: "IPE 105",
+          title: "Cost and Management Accounting",
+          category: "Engineering foundations",
+          credits: "3.0",
+          description: "Costing methods, manufacturing accounts, budgeting, financial statements, and using cost information for engineering decisions."
+        },
+        {
+          code: "IPE 205",
+          title: "Manufacturing Processes I",
+          category: "Manufacturing systems",
+          credits: "3.0",
+          description: "Casting, welding, forming, finishing, powder metallurgy, process selection, tooling concepts, and manufacturing cost considerations."
+        },
+        {
+          code: "IPE 207",
+          title: "Probability and Statistics",
+          category: "Analytics and optimization",
+          credits: "4.0",
+          description: "Probability distributions, estimation, hypothesis testing, regression, analysis of variance, experimental design, and stochastic engineering problems."
+        },
+        {
+          code: "IPE 209",
+          title: "Engineering Economy",
+          category: "Engineering foundations",
+          credits: "2.0",
+          description: "Cash-flow analysis, discounting, investment appraisal, rates of return, depreciation, inflation, and sensitivity analysis."
+        },
+        {
+          code: "IPE 301",
+          title: "Measurement, Instrumentation and Control",
+          category: "Automation and technology",
+          credits: "3.0",
+          description: "Engineering measurement principles, industrial instruments, sensors, control concepts, and their practical use in production systems."
+        },
+        {
+          code: "IPE 303",
+          title: "Product Design I",
+          category: "Product and systems design",
+          credits: "3.0",
+          description: "Customer needs, product specifications, concept generation, value engineering, human factors, standards, and mechanical design fundamentals."
+        },
+        {
+          code: "IPE 305",
+          title: "Manufacturing Processes II",
+          category: "Manufacturing systems",
+          credits: "3.0",
+          description: "Machining theory, cutting tools and economics, conventional and advanced machining, plastics processing, and process selection."
+        },
+        {
+          code: "IPE 307",
+          title: "Operations Research",
+          category: "Analytics and optimization",
+          credits: "4.0",
+          description: "Mathematical modelling, linear and integer programming, transportation and assignment models, dynamic programming, queues, and simulation."
+        },
+        {
+          code: "IPE 311",
+          title: "Material Handling and Maintenance Management",
+          category: "Operations and supply chain",
+          credits: "3.0",
+          description: "Material-flow analysis, conveyors and storage systems, warehouse design, packaging, maintenance strategies, reliability, and plant asset management."
+        },
+        {
+          code: "IPE 315",
+          title: "Operations Management",
+          category: "Operations and supply chain",
+          credits: "3.0",
+          description: "Forecasting, inventory, aggregate planning, MPS and MRP, capacity, scheduling, work study, group technology, TQC, and JIT."
+        },
+        {
+          code: "IPE 317",
+          title: "Product Design II",
+          category: "Product and systems design",
+          credits: "3.0",
+          description: "Reverse engineering, design for assembly and disassembly, reliability, product life cycle, prototyping, CAD, and engineering system design."
+        },
+        {
+          code: "IPE 319",
+          title: "Quality Management",
+          category: "Quality and human systems",
+          credits: "3.0",
+          description: "Statistical process control, process capability, acceptance sampling, reliability, quality costs, ISO standards, and total quality management."
+        },
+        {
+          code: "IPE 329",
+          title: "Numerical Analysis",
+          category: "Analytics and optimization",
+          credits: "3.0",
+          description: "Numerical solutions, interpolation, curve fitting, differentiation, integration, differential equations, and computational optimization."
+        },
+        {
+          code: "IPE 403",
+          title: "Project and Environmental Management",
+          category: "Management and sustainability",
+          credits: "3.0",
+          description: "Project planning, CPM and PERT, budgeting, resource allocation, project control, environmental impact assessment, and industrial sustainability."
+        },
+        {
+          code: "IPE 407",
+          title: "Ergonomics and Safety Management",
+          category: "Quality and human systems",
+          credits: "3.0",
+          description: "Human-machine interaction, biomechanics, anthropometry, workplace design, industrial hazards, risk management, safety standards, and worker wellbeing."
+        },
+        {
+          code: "IPE 409",
+          title: "CAD/CAM",
+          category: "Automation and technology",
+          credits: "3.0",
+          description: "2D and 3D CAD, numerical control, CNC programming, CAM integration, flexible manufacturing systems, and industrial robotics."
+        },
+        {
+          code: "IPE 411",
+          title: "Industrial and Business Management",
+          category: "Management and sustainability",
+          credits: "3.0",
+          description: "Management theory, organizational design, human resources, leadership, information systems, marketing, ethics, and business operations."
+        },
+        {
+          code: "IPE 419",
+          title: "Computer-Integrated Manufacturing",
+          category: "Automation and technology",
+          credits: "3.0",
+          description: "Computer-aided process planning, PLCs, robots, automated storage and handling, flexible manufacturing, and factory automation."
+        },
+        {
+          code: "IPE 451",
+          title: "Supply Chain Management",
+          category: "Operations and supply chain",
+          credits: "3.0",
+          description: "Sourcing, supplier selection, materials planning, logistics, inventory, warehousing, distribution, traceability, and lead-time reduction."
+        },
+        {
+          code: "IPE 400",
+          title: "Project and Thesis",
+          category: "Research and practice",
+          credits: "3.0",
+          description: "A supervised engineering research project applying analysis, experimentation, design, and technical communication to a substantive problem."
+        },
+        {
+          code: "IPE 300",
+          title: "Industrial Practice",
+          category: "Research and practice",
+          credits: "3.0",
+          description: "Structured industrial exposure connecting classroom methods with real production, operations, quality, and organizational practices."
+        }
+      ]
     },
     {
       institution: "Govt. Azizul Haque College, Bogura",
-      degree: "Science Background",
+      degree: "Higher Secondary Certificate (HSC) — Science",
       period: "2018 - 2020",
-      color: "purple"
+      color: "purple",
+      detailsLabel: "View study details",
+      detailsTitle: "Higher Secondary Science Background",
+      detailsIntro: "My higher-secondary studies established the science and mathematics foundation that prepared me for engineering education.",
+      catalogueUrl: "",
+      courses: [
+        { code: "", title: "Physics", category: "Core science", credits: "", description: "Mechanics, waves, electricity, magnetism, optics, and introductory modern physics." },
+        { code: "", title: "Chemistry", category: "Core science", credits: "", description: "Physical, inorganic, and organic chemistry with practical laboratory work." },
+        { code: "", title: "Higher Mathematics", category: "Mathematics", credits: "", description: "Algebra, trigonometry, calculus, coordinate geometry, vectors, and applied mathematical reasoning." }
+      ]
     },
     {
       institution: "Rural Development Academy Laboratory School and College, Bogura",
-      degree: "Science Background",
+      degree: "Secondary School Certificate (SSC) — Science",
       period: "2013 - 2018",
-      color: "violet"
+      color: "violet",
+      detailsLabel: "View study details",
+      detailsTitle: "Secondary Science Background",
+      detailsIntro: "My secondary education developed a broad grounding in science, mathematics, communication, and analytical problem-solving.",
+      catalogueUrl: "",
+      courses: [
+        { code: "", title: "General Science", category: "Science foundation", credits: "", description: "Foundational concepts across physics, chemistry, biology, and practical scientific observation." },
+        { code: "", title: "Mathematics", category: "Mathematics", credits: "", description: "Algebra, geometry, trigonometry, measurement, and structured problem-solving." }
+      ]
     }
   ],
   experience: [

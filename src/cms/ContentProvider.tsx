@@ -16,6 +16,7 @@ export type PortfolioContent = typeof portfolioData;
 const PUBLISHED_KEY = "portfolio-cms-published-v1";
 const DRAFT_KEY = "portfolio-cms-draft-v1";
 const LOCAL_AUTH_KEY = "portfolio-cms-owner-password-v1";
+const LOCAL_SESSION_KEY = "portfolio-cms-owner-session-v1";
 const SYNC_CHANNEL = "portfolio-cms-published-sync-v1";
 const defaults = structuredClone(portfolioData);
 
@@ -39,6 +40,36 @@ const normalizeContent = (content: unknown): PortfolioContent => {
     normalized.projects = savedProjects.map((project, index) => {
       const projectFallback = defaults.projects.find(item => item.title === project.title) ?? defaults.projects[index];
       return projectFallback ? mergeWithDefaults(projectFallback, project) : project as any;
+    });
+  }
+  const savedEducation = content && typeof content === "object" && Array.isArray((content as any).education)
+    ? (content as any).education as Array<Record<string, unknown>>
+    : null;
+  if (savedEducation) {
+    const emptyEducation = {
+      ...defaults.education[0],
+      institution: "",
+      degree: "",
+      period: "",
+      color: "indigo",
+      detailsLabel: "View study details",
+      detailsTitle: "Study details",
+      detailsIntro: "",
+      catalogueUrl: "",
+      courses: [],
+    };
+    normalized.education = savedEducation.map(education => {
+      const exactFallback = defaults.education.find(item => item.institution === education.institution);
+      const looksLikeIpe = /industrial|production|buet/i.test(`${education.institution ?? ""} ${education.degree ?? ""}`);
+      const merged = mergeWithDefaults(exactFallback ?? (looksLikeIpe ? defaults.education[0] : emptyEducation), education);
+      if (/buet/i.test(merged.institution) && merged.degree === "Department of Industrial and Production Engineering") {
+        merged.degree = "B.Sc. in Industrial and Production Engineering (IPE)";
+      } else if (/azizul haque/i.test(merged.institution) && merged.degree === "Science Background") {
+        merged.degree = "Higher Secondary Certificate (HSC) — Science";
+      } else if (/rural development academy/i.test(merged.institution) && merged.degree === "Science Background") {
+        merged.degree = "Secondary School Certificate (SSC) — Science";
+      }
+      return merged;
     });
   }
   const savedBlogPosts = content && typeof content === "object" && Array.isArray((content as any).blogPosts)
@@ -102,6 +133,7 @@ interface CmsContextValue {
   ready: boolean;
   mode: "local-demo" | "supabase";
   published: PortfolioContent;
+  publishedRevision: number;
   draft: PortfolioContent;
   setDraft: (content: PortfolioContent) => void;
   saveDraft: () => Promise<void>;
@@ -121,9 +153,10 @@ const CmsContext = createContext<CmsContextValue | null>(null);
 
 export function ContentProvider({ children }: { children: ReactNode }) {
   const [published, setPublished] = useState<PortfolioContent>(() => normalizeContent(readLocal(PUBLISHED_KEY) ?? defaults));
+  const [publishedRevision, setPublishedRevision] = useState(0);
   const [draft, setDraftState] = useState<PortfolioContent>(() => normalizeContent(readLocal(DRAFT_KEY) ?? readLocal(PUBLISHED_KEY) ?? defaults));
   const [ready, setReady] = useState(!isSupabaseConfigured);
-  const [authenticated, setAuthenticated] = useState(false);
+  const [authenticated, setAuthenticated] = useState(() => !isSupabaseConfigured && sessionStorage.getItem(LOCAL_SESSION_KEY) === "true");
   const [localOwnerExists, setLocalOwnerExists] = useState(() => Boolean(localStorage.getItem(LOCAL_AUTH_KEY)));
   const syncChannel = useRef<BroadcastChannel | null>(null);
 
@@ -136,6 +169,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
       const normalized = normalizeContent(content);
       replacePublishedObject(normalized);
       setPublished(clone(normalized));
+      setPublishedRevision(revision => revision + 1);
     };
     const handleStorage = (event: StorageEvent) => {
       if (event.key !== PUBLISHED_KEY || !event.newValue) return;
@@ -163,6 +197,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
           const normalized = normalizeContent(remote);
           replacePublishedObject(normalized);
           setPublished(normalized);
+          setPublishedRevision(revision => revision + 1);
         }
         const { data } = await supabase.auth.getSession();
         if (active) {
@@ -199,6 +234,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
     replacePublishedObject(draft);
     setPublished(clone(draft));
+    setPublishedRevision(revision => revision + 1);
     syncChannel.current?.postMessage(clone(draft));
   };
 
@@ -216,6 +252,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const setupLocalOwner = async (password: string) => {
     if (password.length < 8) throw new Error("Use at least 8 characters.");
     localStorage.setItem(LOCAL_AUTH_KEY, await hashPassword(password));
+    sessionStorage.setItem(LOCAL_SESSION_KEY, "true");
     setLocalOwnerExists(true);
     setAuthenticated(true);
   };
@@ -236,11 +273,13 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     }
     const saved = localStorage.getItem(LOCAL_AUTH_KEY);
     if (!saved || saved !== await hashPassword(password)) throw new Error("Incorrect password.");
+    sessionStorage.setItem(LOCAL_SESSION_KEY, "true");
     setAuthenticated(true);
   };
 
   const logout = async () => {
     if (supabase) await supabase.auth.signOut();
+    sessionStorage.removeItem(LOCAL_SESSION_KEY);
     setAuthenticated(false);
   };
 
@@ -258,6 +297,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     ready,
     mode: isSupabaseConfigured ? "supabase" : "local-demo",
     published,
+    publishedRevision,
     draft,
     setDraft,
     saveDraft,
@@ -271,7 +311,7 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     login,
     logout,
     changePassword,
-  }), [ready, published, draft, authenticated, localOwnerExists]);
+  }), [ready, published, publishedRevision, draft, authenticated, localOwnerExists]);
 
   return <CmsContext.Provider value={value}>{children}</CmsContext.Provider>;
 }

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import {
   ArrowDown, ArrowUp, Check, ChevronDown, ChevronRight, Download, ExternalLink,
   Eye, FileJson, ImagePlus, Loader2, LockKeyhole, LogOut, Palette, Plus, RotateCcw,
-  Save, Settings, ShieldCheck, Trash2, Upload, UserRound, Wifi, WifiOff, Inbox,
+  Save, Settings, ShieldCheck, Trash2, Upload, Wifi, WifiOff, Inbox,
   MailOpen, Mail, RefreshCw, Reply, Search, Clock
 } from "lucide-react";
 import { useCms, type PortfolioContent } from "../cms/ContentProvider";
@@ -18,7 +18,6 @@ type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string
 
 const sectionLabels: Record<string, string> = {
   profile: "Profile & contact",
-  account: "Account & security",
   site: "Site design & pages",
   education: "Education",
   experience: "Experience",
@@ -113,7 +112,7 @@ function OwnerLogin() {
             {busy ? <Loader2 className="animate-spin" size={18} /> : <ShieldCheck size={18} />}{isSetup ? "Activate dashboard" : "Sign in"}
           </button>
         </form>
-        <Link to="/" className="mt-6 flex items-center justify-center gap-2 text-sm text-slate-400 hover:text-white"><Eye size={16} /> Return to website</Link>
+        <div className="mt-6 flex flex-col items-center gap-3"><Link to="/admin/access" className="text-sm text-indigo-300 hover:text-white">Forgot or change password</Link><Link to="/" className="flex items-center justify-center gap-2 text-sm text-slate-400 hover:text-white"><Eye size={16} /> Return to website</Link></div>
       </div>
     </div>
   );
@@ -272,7 +271,7 @@ function AdminDashboard() {
   const [notice, setNotice] = useState("");
   const [busy, setBusy] = useState("");
   const importRef = useRef<HTMLInputElement>(null);
-  const sectionKeys = useMemo(() => ["profile", "messages", "site", ...Object.keys(cms.draft).filter(key => !profileKeys.includes(key) && key !== "site"), "account"], [cms.draft]);
+  const sectionKeys = useMemo(() => ["profile", "messages", "site", ...Object.keys(cms.draft).filter(key => !profileKeys.includes(key) && key !== "site")], [cms.draft]);
 
   const update = (path: (string | number)[], value: JsonValue) => cms.setDraft(setAtPath(cms.draft, path, value));
   const run = async (name: string, action: () => Promise<void>, success: string) => {
@@ -289,7 +288,7 @@ function AdminDashboard() {
   };
   const activeFields = section === "profile"
     ? profileKeys.map(key => [key, (cms.draft as any)[key]] as const)
-    : section === "account" || section === "messages" ? [] : [[section, (cms.draft as any)[section]]] as const;
+    : section === "messages" ? [] : [[section, (cms.draft as any)[section]]] as const;
 
   return (
     <div className="admin-shell min-h-screen text-slate-100">
@@ -298,6 +297,7 @@ function AdminDashboard() {
           <div><p className="font-black tracking-tight">Portfolio CMS</p><p className="text-[10px] text-slate-500 uppercase tracking-widest">Owner dashboard</p></div>
           <div className="flex items-center gap-2">
             <span className={`hidden sm:flex items-center gap-2 text-xs rounded-full px-3 py-1.5 ${cms.mode === "supabase" ? "bg-emerald-500/10 text-emerald-300" : "bg-amber-500/10 text-amber-300"}`}>{cms.mode === "supabase" ? <Wifi size={14} /> : <WifiOff size={14} />}{cms.mode === "supabase" ? "Supabase connected" : "Local demo"}</span>
+            <Link to="/admin/access" className="admin-icon-btn" title="Owner access and password"><LockKeyhole size={17} /></Link>
             <Link to="/" target="_blank" className="admin-icon-btn" title="Open public site"><ExternalLink size={17} /></Link>
             <button onClick={() => void cms.logout()} className="admin-icon-btn" title="Sign out"><LogOut size={17} /></button>
           </div>
@@ -334,7 +334,7 @@ function AdminDashboard() {
             <div className="rounded-2xl border border-white/10 p-4"><Eye className="text-indigo-300 mb-3" /><p className="font-bold">Navigation</p><p className="text-xs text-slate-500 mt-1">Rename, reorder, or hide links.</p></div>
           </div>}
 
-          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : section === "blogPosts" ? <BlogPostsEditor posts={cms.draft.blogPosts} onChange={blogPosts => cms.setDraft({ ...cms.draft, blogPosts })} onUpload={cms.upload} /> : section === "education" ? <EducationEditor education={cms.draft.education} onChange={education => cms.setDraft({ ...cms.draft, education })} /> : <div className="space-y-5">
+          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "blogPosts" ? <BlogPostsEditor posts={cms.draft.blogPosts} onChange={blogPosts => cms.setDraft({ ...cms.draft, blogPosts })} onUpload={cms.upload} /> : section === "education" ? <EducationEditor education={cms.draft.education} onChange={education => cms.setDraft({ ...cms.draft, education })} /> : <div className="space-y-5">
             {activeFields.map(([key, value]) => <FieldEditor key={key} label={key} value={value as JsonValue} path={[key]} onChange={update} onUpload={cms.upload} />)}
           </div>}
 
@@ -436,30 +436,6 @@ function MessagesInbox({ mode }: { mode: "local-demo" | "supabase" }) {
         </div>}
       </article>)}
     </div>}
-  </div>;
-}
-
-function AccountSettings({ onChangePassword, mode }: { onChangePassword: (password: string) => Promise<void>; mode: "local-demo" | "supabase" }) {
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [message, setMessage] = useState("");
-  const [busy, setBusy] = useState(false);
-  return <div className="max-w-xl rounded-2xl border border-white/10 bg-white/[0.025] p-6">
-    <div className="flex items-center gap-3 mb-3"><UserRound className="text-indigo-300" /><h2 className="text-xl font-bold">Change owner password</h2></div>
-    <p className="text-sm text-slate-400 mb-6">{mode === "supabase" ? "This updates your Supabase owner account password." : "This updates the password for this browser's demonstration dashboard."}</p>
-    <form className="space-y-4" onSubmit={async event => {
-      event.preventDefault(); setMessage("");
-      if (password !== confirmPassword) { setMessage("The passwords do not match."); return; }
-      setBusy(true);
-      try { await onChangePassword(password); setPassword(""); setConfirmPassword(""); setMessage("Password updated successfully."); }
-      catch (reason) { setMessage(reason instanceof Error ? reason.message : "Unable to update the password."); }
-      finally { setBusy(false); }
-    }}>
-      <label className="block text-sm text-slate-300">New password<input className="admin-input mt-2" type="password" minLength={8} required value={password} onChange={e => setPassword(e.target.value)} /></label>
-      <label className="block text-sm text-slate-300">Confirm new password<input className="admin-input mt-2" type="password" minLength={8} required value={confirmPassword} onChange={e => setConfirmPassword(e.target.value)} /></label>
-      {message && <p className="text-sm rounded-xl bg-indigo-500/10 border border-indigo-500/20 px-4 py-3">{message}</p>}
-      <button disabled={busy} className="admin-action primary">{busy ? <Loader2 className="animate-spin" size={17} /> : <LockKeyhole size={17} />} Update password</button>
-    </form>
   </div>;
 }
 

@@ -12,6 +12,62 @@ export const supabase: SupabaseClient | null = isSupabaseConfigured
     })
   : null;
 
+export interface PortfolioAdminAccess {
+  user_id: string;
+  email: string;
+  role: "owner" | "editor";
+  active: boolean;
+  created_at: string;
+}
+
+export async function fetchCurrentAdminAccess(): Promise<PortfolioAdminAccess | null> {
+  if (!supabase) return null;
+  const { data: sessionData } = await supabase.auth.getSession();
+  const userId = sessionData.session?.user.id;
+  if (!userId) return null;
+  const { data, error } = await supabase
+    .from("portfolio_admins")
+    .select("user_id,email,role,active,created_at")
+    .eq("user_id", userId)
+    .eq("active", true)
+    .maybeSingle();
+  if (error) {
+    if (error.code === "42P01") throw new Error("Run the latest supabase/schema.sql before using owner access.");
+    throw error;
+  }
+  return data as PortfolioAdminAccess | null;
+}
+
+export async function fetchPortfolioAdmins(): Promise<PortfolioAdminAccess[]> {
+  if (!supabase) return [];
+  const { data, error } = await supabase
+    .from("portfolio_admins")
+    .select("user_id,email,role,active,created_at")
+    .order("role", { ascending: false })
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as PortfolioAdminAccess[];
+}
+
+export async function authorizePortfolioAdmin(email: string): Promise<void> {
+  if (!supabase) throw new Error("Supabase is not connected.");
+  const { error } = await supabase.rpc("authorize_portfolio_admin", { target_email: email.trim().toLowerCase() });
+  if (error) throw error;
+}
+
+export async function setPortfolioAdminAccess(userId: string, active: boolean): Promise<void> {
+  if (!supabase) throw new Error("Supabase is not connected.");
+  const { error } = await supabase.rpc("set_portfolio_admin_access", { target_user_id: userId, target_active: active });
+  if (error) throw error;
+}
+
+export async function requestPasswordReset(email: string): Promise<void> {
+  if (!supabase) throw new Error("Email recovery becomes available after Supabase is connected.");
+  const redirectTo = `${window.location.origin}/admin/access?recovery=1`;
+  const { error } = await supabase.auth.resetPasswordForEmail(email.trim().toLowerCase(), { redirectTo });
+  if (error) throw error;
+}
+
 export async function fetchRemotePublished<T>(): Promise<T | null> {
   if (!supabase) return null;
   const { data, error } = await supabase

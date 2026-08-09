@@ -75,13 +75,31 @@ demo mode and asks you to create a password on first use. The dashboard can:
 
 1. Create a Supabase project and run [`supabase/schema.sql`](supabase/schema.sql)
    in its SQL editor. Re-run the file after pulling updates to create the
-   contact-message table and policies; the script is safe to run repeatedly.
+   content, contact-message, administrator-allowlist, storage, and RLS policies;
+   the script is safe to run repeatedly.
 2. In Supabase Authentication, create the owner user and disable public user
-   sign-ups for this single-owner portfolio.
+   sign-ups. At the bottom of `schema.sql`, copy the one-time owner-bootstrap
+   statement, replace its example email with the owner email, and run it.
 3. Copy `.env.example` to `.env.local` and add `VITE_SUPABASE_URL`,
    `VITE_SUPABASE_ANON_KEY`, and optionally `VITE_OWNER_EMAIL`.
-4. Restart the development server. The dashboard automatically changes from
+4. In **Authentication -> URL Configuration**, add both your deployed
+   `https://your-domain/admin/access` URL and
+   `http://localhost:3000/admin/access` for password-recovery redirects.
+5. Restart the development server. The dashboard automatically changes from
    local demo mode to Supabase-backed authentication, content, and media.
+
+### Owner access and automatic login
+
+Open `/admin/access` to sign in, recover or change the password, and manage
+authorized administrators. Supabase stores a refreshable browser session, so a
+trusted browser signs in automatically until the user explicitly signs out or
+the session is revoked. The website never stores the password.
+
+Only active rows in `portfolio_admins` can read drafts, publish content, manage
+messages, or upload media. Only the `owner` row can authorize or disable other
+administrators. To add somebody, first create their account in Supabase
+Authentication, then enter that email in `/admin/access`. Public sign-up should
+remain disabled.
 
 ---
 

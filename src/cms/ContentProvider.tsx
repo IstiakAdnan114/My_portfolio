@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState, type R
 import { portfolioData } from "../data";
 import { markdownToBlocks } from "../blog/blocks";
 import {
+  fetchCurrentAdminAccess,
   fetchRemoteDraft,
   fetchRemotePublished,
   isSupabaseConfigured,
@@ -9,6 +10,7 @@ import {
   saveRemoteDraft,
   supabase,
   uploadMedia,
+  type PortfolioAdminAccess,
 } from "./supabase";
 
 export type PortfolioContent = typeof portfolioData;
@@ -19,6 +21,7 @@ const LOCAL_AUTH_KEY = "portfolio-cms-owner-password-v1";
 const LOCAL_SESSION_KEY = "portfolio-cms-owner-session-v1";
 const SYNC_CHANNEL = "portfolio-cms-published-sync-v1";
 const defaults = structuredClone(portfolioData);
+const localAdminAccess: PortfolioAdminAccess = { user_id: "local-owner", email: "Local browser owner", role: "owner", active: true, created_at: "" };
 
 const clone = <T,>(value: T): T => structuredClone(value);
 
@@ -142,6 +145,7 @@ interface CmsContextValue {
   restoreDefaults: () => Promise<void>;
   upload: (file: File) => Promise<string>;
   authenticated: boolean;
+  adminAccess: PortfolioAdminAccess | null;
   localOwnerExists: boolean;
   setupLocalOwner: (password: string) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
@@ -156,7 +160,8 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const [publishedRevision, setPublishedRevision] = useState(0);
   const [draft, setDraftState] = useState<PortfolioContent>(() => normalizeContent(readLocal(DRAFT_KEY) ?? readLocal(PUBLISHED_KEY) ?? defaults));
   const [ready, setReady] = useState(!isSupabaseConfigured);
-  const [authenticated, setAuthenticated] = useState(() => !isSupabaseConfigured && sessionStorage.getItem(LOCAL_SESSION_KEY) === "true");
+  const [authenticated, setAuthenticated] = useState(() => !isSupabaseConfigured && localStorage.getItem(LOCAL_SESSION_KEY) === "true");
+  const [adminAccess, setAdminAccess] = useState<PortfolioAdminAccess | null>(() => !isSupabaseConfigured && localStorage.getItem(LOCAL_SESSION_KEY) === "true" ? localAdminAccess : null);
   const [localOwnerExists, setLocalOwnerExists] = useState(() => Boolean(localStorage.getItem(LOCAL_AUTH_KEY)));
   const syncChannel = useRef<BroadcastChannel | null>(null);
 
@@ -201,17 +206,43 @@ export function ContentProvider({ children }: { children: ReactNode }) {
         }
         const { data } = await supabase.auth.getSession();
         if (active) {
-          setAuthenticated(Boolean(data.session));
           if (data.session) {
-            const remoteDraft = await fetchRemoteDraft<PortfolioContent>();
-            if (remoteDraft) setDraftState(normalizeContent(remoteDraft));
+            const access = await fetchCurrentAdminAccess();
+            if (access) {
+              setAdminAccess(access);
+              setAuthenticated(true);
+              const remoteDraft = await fetchRemoteDraft<PortfolioContent>();
+              if (remoteDraft) setDraftState(normalizeContent(remoteDraft));
+            } else {
+              await supabase.auth.signOut();
+              setAdminAccess(null);
+              setAuthenticated(false);
+            }
+          } else {
+            setAdminAccess(null);
+            setAuthenticated(false);
           }
         }
       } finally {
         if (active) setReady(true);
       }
     })();
-    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => setAuthenticated(Boolean(session)));
+    const { data: listener } = supabase.auth.onAuthStateChange((_event, session) => {
+      if (!session) {
+        setAdminAccess(null);
+        setAuthenticated(false);
+        return;
+      }
+      void fetchCurrentAdminAccess().then(access => {
+        if (!active) return;
+        setAdminAccess(access);
+        setAuthenticated(Boolean(access));
+      }).catch(() => {
+        if (!active) return;
+        setAdminAccess(null);
+        setAuthenticated(false);
+      });
+    });
     return () => { active = false; listener.subscription.unsubscribe(); };
   }, []);
 
@@ -252,8 +283,9 @@ export function ContentProvider({ children }: { children: ReactNode }) {
   const setupLocalOwner = async (password: string) => {
     if (password.length < 8) throw new Error("Use at least 8 characters.");
     localStorage.setItem(LOCAL_AUTH_KEY, await hashPassword(password));
-    sessionStorage.setItem(LOCAL_SESSION_KEY, "true");
+    localStorage.setItem(LOCAL_SESSION_KEY, "true");
     setLocalOwnerExists(true);
+    setAdminAccess(localAdminAccess);
     setAuthenticated(true);
   };
 
@@ -261,25 +293,28 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     if (isSupabaseConfigured && supabase) {
       const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
-      const allowedOwner = import.meta.env.VITE_OWNER_EMAIL?.trim().toLowerCase();
-      if (allowedOwner && email.trim().toLowerCase() !== allowedOwner) {
+      const access = await fetchCurrentAdminAccess();
+      if (!access) {
         await supabase.auth.signOut();
-        throw new Error("This account is not the configured owner.");
+        throw new Error("This account has not been authorized by the portfolio owner.");
       }
       const remoteDraft = await fetchRemoteDraft<PortfolioContent>();
       setDraftState(normalizeContent(remoteDraft ?? published));
+      setAdminAccess(access);
       setAuthenticated(true);
       return;
     }
     const saved = localStorage.getItem(LOCAL_AUTH_KEY);
     if (!saved || saved !== await hashPassword(password)) throw new Error("Incorrect password.");
-    sessionStorage.setItem(LOCAL_SESSION_KEY, "true");
+    localStorage.setItem(LOCAL_SESSION_KEY, "true");
+    setAdminAccess(localAdminAccess);
     setAuthenticated(true);
   };
 
   const logout = async () => {
     if (supabase) await supabase.auth.signOut();
-    sessionStorage.removeItem(LOCAL_SESSION_KEY);
+    localStorage.removeItem(LOCAL_SESSION_KEY);
+    setAdminAccess(null);
     setAuthenticated(false);
   };
 
@@ -306,12 +341,13 @@ export function ContentProvider({ children }: { children: ReactNode }) {
     restoreDefaults,
     upload: uploadMedia,
     authenticated,
+    adminAccess,
     localOwnerExists,
     setupLocalOwner,
     login,
     logout,
     changePassword,
-  }), [ready, published, publishedRevision, draft, authenticated, localOwnerExists]);
+  }), [ready, published, publishedRevision, draft, authenticated, adminAccess, localOwnerExists]);
 
   return <CmsContext.Provider value={value}>{children}</CmsContext.Provider>;
 }

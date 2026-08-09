@@ -14,6 +14,7 @@ import Contact from "./pages/Contact";
 import BlogDetail from "./pages/BlogDetail";
 import Publications from "./pages/Publications";
 import Admin from "./pages/Admin";
+import AdminAccess from "./pages/AdminAccess";
 import { ContentProvider } from "./cms/ContentProvider";
 
 export default function App() {
@@ -26,6 +27,7 @@ export default function App() {
     <ContentProvider>
       <Router>
         <Routes>
+          <Route path="/admin/access" element={<AdminAccess />} />
           <Route path="/admin/*" element={<Admin />} />
           <Route path="*" element={<Layout>
             <Routes>

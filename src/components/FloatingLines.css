@@ -3,4 +3,10 @@
   height: 100%;
   position: relative;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
+}
+
+.floating-lines-container canvas {
+  display: block;
 }

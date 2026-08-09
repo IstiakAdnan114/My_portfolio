@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react';
 import {
-  Clock,
   Mesh,
   OrthographicCamera,
   PlaneGeometry,
@@ -12,6 +11,7 @@ import {
 } from 'three';
 
 import './FloatingLines.css';
+import { createAnimationActivityMonitor, getAnimationProfile } from '../utils/animationPerformance';
 
 const vertexShader = `
 precision highp float;
@@ -301,12 +301,17 @@ export default function FloatingLines({
     if (!container) return;
 
     let active = true;
+    let forceRender = true;
+    const animationProfile = getAnimationProfile();
+    const activityMonitor = createAnimationActivityMonitor(animationProfile.isMobile, () => {
+      forceRender = true;
+    });
     const scene = new Scene();
     const camera = new OrthographicCamera(-1, 1, 1, -1, 0, 1);
     camera.position.z = 1;
 
-    const renderer = new WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    const renderer = new WebGLRenderer({ antialias: !animationProfile.isMobile, alpha: true });
+    renderer.setPixelRatio(animationProfile.pixelRatio);
     renderer.domElement.style.width = '100%';
     renderer.domElement.style.height = '100%';
     container.appendChild(renderer.domElement);
@@ -383,8 +388,6 @@ export default function FloatingLines({
     const mesh = new Mesh(geometry, material);
     scene.add(mesh);
 
-    const clock = new Clock();
-
     let lastWidth = 0;
     let lastHeight = 0;
 
@@ -409,6 +412,7 @@ export default function FloatingLines({
       const canvasWidth = renderer.domElement.width;
       const canvasHeight = renderer.domElement.height;
       uniforms.iResolution.value.set(canvasWidth, canvasHeight, 1);
+      forceRender = true;
     };
 
     setSize();
@@ -442,9 +446,18 @@ export default function FloatingLines({
     }
 
     let raf = 0;
-    const renderLoop = () => {
+    let lastFrameTime = 0;
+    const renderLoop = (time: number) => {
       if (!active) return;
-      uniforms.iTime.value = clock.getElapsedTime();
+      raf = requestAnimationFrame(renderLoop);
+
+      if (!activityMonitor.canRender()) return;
+      if (!forceRender && time - lastFrameTime < animationProfile.frameInterval) return;
+      if (animationProfile.prefersReducedMotion && lastFrameTime > 0 && !forceRender) return;
+
+      lastFrameTime = time;
+      forceRender = false;
+      uniforms.iTime.value = animationProfile.prefersReducedMotion ? 0 : time * 0.001;
       if (interactive) {
         currentMouseRef.current.lerp(targetMouseRef.current, mouseDamping);
         uniforms.iMouse.value.copy(currentMouseRef.current);
@@ -456,13 +469,13 @@ export default function FloatingLines({
         uniforms.parallaxOffset.value.copy(currentParallaxRef.current);
       }
       renderer.render(scene, camera);
-      raf = requestAnimationFrame(renderLoop);
     };
-    renderLoop();
+    raf = requestAnimationFrame(renderLoop);
 
     return () => {
       active = false;
       cancelAnimationFrame(raf);
+      activityMonitor.dispose();
       if (ro) ro.disconnect();
       if (interactive) {
         renderer.domElement.removeEventListener('pointermove', handlePointerMove as any);

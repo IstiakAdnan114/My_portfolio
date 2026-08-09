@@ -11,6 +11,9 @@ interface LayoutProps {
   children: ReactNode;
 }
 
+const BACKGROUND_LINE_GRADIENT = ["#1d1710", "#202922", "#231c1d"];
+const BACKGROUND_WAVES: Array<'middle'> = ['middle'];
+
 const NavLink = ({ to, children, onClick }: { to: string, children: ReactNode, onClick?: () => void }) => {
   const location = useLocation();
   const isActive = location.pathname === to;
@@ -62,8 +65,8 @@ export default function Layout({ children }: LayoutProps) {
 
       <div className="fixed inset-0 pointer-events-none z-[1] opacity-40">
         <FloatingLines
-          linesGradient={["#1d1710", "#202922", "#231c1d"]}
-          enabledWaves={['middle']}
+          linesGradient={BACKGROUND_LINE_GRADIENT}
+          enabledWaves={BACKGROUND_WAVES}
           lineCount={10}
           lineDistance={12}
           bendRadius={5.0}

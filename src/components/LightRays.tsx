@@ -1,6 +1,7 @@
 import { useRef, useEffect, useState } from 'react';
 import { Renderer, Program, Triangle, Mesh } from 'ogl';
 import './LightRays.css';
+import { createAnimationActivityMonitor, getAnimationProfile } from '../utils/animationPerformance';
 
 const DEFAULT_COLOR = '#ffffff';
 
@@ -111,8 +112,14 @@ const LightRays = ({
 
       if (!containerRef.current) return;
 
+      const animationProfile = getAnimationProfile();
+      let forceRender = true;
+      const activityMonitor = createAnimationActivityMonitor(animationProfile.isMobile, () => {
+        forceRender = true;
+      });
+
       const renderer = new Renderer({
-        dpr: Math.min(window.devicePixelRatio, 2),
+        dpr: animationProfile.pixelRatio,
         alpha: true
       });
       rendererRef.current = renderer;
@@ -278,7 +285,7 @@ void main() {
         lastWidth = width;
         lastHeight = height;
 
-        renderer.dpr = Math.min(window.devicePixelRatio, 2);
+        renderer.dpr = animationProfile.pixelRatio;
         renderer.setSize(width, height);
 
         const dpr = renderer.dpr;
@@ -290,14 +297,24 @@ void main() {
         const { anchor, dir } = getAnchorAndDir(raysOrigin, w, h);
         uniforms.rayPos.value = anchor;
         uniforms.rayDir.value = dir;
+        forceRender = true;
       };
 
+      let lastFrameTime = 0;
       const loop = (t: number) => {
         if (!rendererRef.current || !uniformsRef.current || !meshRef.current) {
           return;
         }
 
-        uniforms.iTime.value = t * 0.001;
+        animationIdRef.current = requestAnimationFrame(loop);
+
+        if (!activityMonitor.canRender()) return;
+        if (!forceRender && t - lastFrameTime < animationProfile.frameInterval) return;
+        if (animationProfile.prefersReducedMotion && lastFrameTime > 0 && !forceRender) return;
+
+        lastFrameTime = t;
+        forceRender = false;
+        uniforms.iTime.value = animationProfile.prefersReducedMotion ? 0 : t * 0.001;
 
         if (followMouse && mouseInfluence > 0.0) {
           const smoothing = 0.92;
@@ -310,10 +327,8 @@ void main() {
 
         try {
           renderer.render({ scene: meshRef.current });
-          animationIdRef.current = requestAnimationFrame(loop);
         } catch (error) {
           console.warn('WebGL rendering error:', error);
-          return;
         }
       };
 
@@ -328,6 +343,7 @@ void main() {
         }
 
         window.removeEventListener('resize', updatePlacement);
+        activityMonitor.dispose();
 
         if (renderer) {
           try {

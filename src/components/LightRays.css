@@ -5,4 +5,10 @@
   pointer-events: none;
   z-index: 3;
   overflow: hidden;
+  contain: strict;
+  transform: translateZ(0);
+}
+
+.light-rays-container canvas {
+  display: block;
 }

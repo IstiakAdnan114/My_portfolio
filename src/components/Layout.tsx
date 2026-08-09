@@ -94,7 +94,7 @@ export default function Layout({ children }: LayoutProps) {
       {/* Navigation */}
       <header className="fixed top-0 z-[100] w-full backdrop-blur-md border-b border-white/10" style={{ backgroundColor: `${theme.background}f2` }}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <Link to="/" className="text-xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent">
+          <Link to="/" className="text-xl font-bold bg-gradient-to-r from-white via-indigo-200 to-purple-300 bg-clip-text text-transparent drop-shadow-[0_0_14px_rgba(165,180,252,0.28)] hover:from-indigo-200 hover:to-purple-200 transition-all">
             {portfolioData.name.toUpperCase()}
           </Link>
 

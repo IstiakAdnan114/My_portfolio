@@ -9,6 +9,9 @@ import { portfolioData } from "../data";
 export default function BlogDetail() {
   const { id } = useParams();
   const post = portfolioData.blogPosts.find(p => p.id === Number(id));
+  const authorImage = /^(?:https?:|data:|blob:|\/)/i.test(portfolioData.avatarUrl)
+    ? portfolioData.avatarUrl
+    : `/${portfolioData.avatarUrl}`;
 
   useEffect(() => {
     document.title = post
@@ -91,11 +94,11 @@ export default function BlogDetail() {
         {/* Author Footer */}
         <div className="mt-16 p-8 border-t border-white/10 flex items-center gap-6">
           <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-indigo-500/30">
-            <img src="https://picsum.photos/seed/adnan/200/200" alt="Md. Istiak Adnan" className="w-full h-full object-cover" />
+            <img src={authorImage} alt={portfolioData.name} className="w-full h-full object-cover" />
           </div>
           <div>
-            <h4 className="text-lg font-bold text-white mb-1">Md. Istiak Adnan</h4>
-            <p className="text-gray-400 text-sm">Industrial & Production Engineer | BUET | Tech Enthusiast</p>
+            <h4 className="text-lg font-bold text-white mb-1">{portfolioData.name}</h4>
+            <p className="text-gray-400 text-sm">{portfolioData.title}</p>
           </div>
         </div>
       </div>

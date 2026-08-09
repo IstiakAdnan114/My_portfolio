@@ -116,9 +116,19 @@ export default function Home() {
             href={portfolioData.cvUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full text-white font-bold hover:scale-105 transition-transform shadow-lg shadow-indigo-500/20"
+            className="group inline-flex items-center gap-4 px-5 py-3.5 bg-white hover:bg-indigo-50 rounded-2xl text-slate-950 font-bold border border-white shadow-[0_14px_45px_rgba(255,255,255,0.18)] hover:-translate-y-1 hover:shadow-[0_18px_55px_rgba(99,102,241,0.3)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-indigo-400/50 transition-all duration-300"
           >
-            <Download size={18} className="mr-2" /> {portfolioData.site.pageCopy.home.cvButton}
+            <span
+              className="w-11 h-11 rounded-xl text-white flex items-center justify-center shadow-lg shadow-indigo-500/25 ring-1 ring-slate-900/10 group-hover:scale-105 transition-transform"
+              style={{ background: "linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)" }}
+            >
+              <Download size={20} />
+            </span>
+            <span className="text-left leading-tight">
+              <span className="block text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 mb-1">Curriculum Vitae</span>
+              <span className="block text-base sm:text-lg">{portfolioData.site.pageCopy.home.cvButton}</span>
+            </span>
+            <span className="px-2.5 py-1 rounded-lg bg-slate-100 text-[10px] font-black tracking-wider text-slate-500 group-hover:bg-white transition-colors">PDF</span>
           </a>
         </motion.div>
 

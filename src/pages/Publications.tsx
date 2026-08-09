@@ -20,7 +20,7 @@ export default function Publications() {
   };
 
   return (
-    <section className="py-24 px-4 min-h-screen">
+    <section className="pt-16 pb-24 px-4 min-h-screen">
       <div className="max-w-5xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -30,10 +30,10 @@ export default function Publications() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
             <BookOpen size={14} /> {portfolioData.site.pageCopy.publications.badge}
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
             {portfolioData.site.pageCopy.publications.heading}
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg leading-relaxed">
+          </h1>
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
             {portfolioData.site.pageCopy.publications.description}
           </p>
         </motion.div>

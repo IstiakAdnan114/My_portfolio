@@ -134,7 +134,11 @@ function FieldEditor({ label, value, path, onChange, onUpload, depth = 0 }: Fiel
 
   if (Array.isArray(value)) {
     const addItem = () => {
-      const template = value.length ? blankLike(value[value.length - 1]) : "";
+      const template = value.length
+        ? blankLike(value[value.length - 1])
+        : /images?/i.test(label) ? { src: "", caption: "" }
+        : /links?/i.test(label) ? { name: "", url: "", type: "external" }
+        : "";
       onChange(path, [...value, template]);
     };
     const move = (index: number, direction: -1 | 1) => {
@@ -407,6 +411,9 @@ function AccountSettings({ onChangePassword, mode }: { onChangePassword: (passwo
 
 export default function Admin() {
   const cms = useCms();
+  useEffect(() => {
+    document.title = `Admin Dashboard | ${cms.published.name}`;
+  }, [cms.published.name]);
   if (!cms.ready) return <div className="admin-shell min-h-screen flex items-center justify-center"><Loader2 className="animate-spin text-indigo-300" size={32} /></div>;
   return cms.authenticated ? <AdminDashboard /> : <OwnerLogin />;
 }

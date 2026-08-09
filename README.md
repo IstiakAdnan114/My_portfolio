@@ -66,6 +66,7 @@ demo mode and asks you to create a password on first use. The dashboard can:
 - edit profile details, page headings, buttons, navigation, and the site palette;
 - add, delete, and reorder education, experience, skills, projects,
   publications, certifications, achievements, blog posts, notices, and photos;
+- manage project cover images and multi-photo galleries with a visitor lightbox;
 - receive visitor contact-form submissions in the dashboard message inbox,
   mark them read or unread, reply by email, search, and delete them;
 - upload images, save drafts, publish changes, and import/export JSON backups.

@@ -5,17 +5,20 @@ import { portfolioData } from "../data";
 
 export default function Blog() {
   return (
-    <section className="py-24 px-4 min-h-screen">
+    <section className="pt-16 pb-24 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
           >
-            <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-rose-400 bg-clip-text text-transparent">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-orange-500/10 border border-orange-400/30 text-orange-300 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
+              <BookOpen size={14} /> {portfolioData.site.pageCopy.blog.badge}
+            </div>
+            <h1 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-300 to-rose-300 bg-clip-text text-transparent">
               {portfolioData.site.pageCopy.blog.heading}
-            </h2>
-            <p className="text-gray-400 max-w-xl text-lg">
+            </h1>
+            <p className="text-gray-300 max-w-xl text-lg leading-relaxed">
               {portfolioData.site.pageCopy.blog.description}
             </p>
           </motion.div>

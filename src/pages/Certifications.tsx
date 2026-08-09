@@ -14,7 +14,7 @@ export default function Certifications() {
     : portfolioData.certifications.filter(c => c.category === activeCategory);
 
   return (
-    <section className="py-24 px-4 min-h-screen">
+    <section className="pt-16 pb-24 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -24,10 +24,10 @@ export default function Certifications() {
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
             <Award size={14} /> {portfolioData.site.pageCopy.certifications.badge}
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-blue-300 to-indigo-300 bg-clip-text text-transparent">
             {portfolioData.site.pageCopy.certifications.heading}
-          </h2>
-          <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          </h1>
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
             {portfolioData.site.pageCopy.certifications.description}
           </p>
         </motion.div>

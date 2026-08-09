@@ -31,6 +31,15 @@ function mergeWithDefaults<T>(fallback: T, saved: unknown): T {
 
 const normalizeContent = (content: unknown): PortfolioContent => {
   const normalized = mergeWithDefaults(defaults, content);
+  const savedProjects = content && typeof content === "object" && Array.isArray((content as any).projects)
+    ? (content as any).projects as Array<Record<string, unknown>>
+    : null;
+  if (savedProjects) {
+    normalized.projects = savedProjects.map((project, index) => {
+      const projectFallback = defaults.projects.find(item => item.title === project.title) ?? defaults.projects[index];
+      return projectFallback ? mergeWithDefaults(projectFallback, project) : project as any;
+    });
+  }
   const savedContact = content && typeof content === "object"
     ? (content as any)?.site?.pageCopy?.contact
     : null;

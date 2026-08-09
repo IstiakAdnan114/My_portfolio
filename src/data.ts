@@ -28,16 +28,17 @@ export const portfolioData = {
     ],
     pageCopy: {
       home: { handle: "adnanistiak111", status: "Available for work", contactButton: "Get in Touch", cvButton: "Download CV" },
-      about: { heading: "About My Journey", educationHeading: "Education" },
-      experience: { heading: "My Journey", professionalHeading: "Professional Experience", leadershipHeading: "Leadership & Service" },
-      skills: { heading: "Expertise & Skills" },
-      projects: { heading: "Featured Projects" },
+      about: { badge: "About me", heading: "About My Journey", description: "Discover my academic background, engineering interests, and the experiences that shaped my professional journey.", educationHeading: "Education" },
+      experience: { badge: "Career journey", heading: "My Journey", description: "A timeline of my professional training, teaching experience, leadership roles, and community involvement.", professionalHeading: "Professional Experience", leadershipHeading: "Leadership & Service" },
+      skills: { badge: "Technical toolkit", heading: "Expertise & Skills", description: "The engineering, analytical, software, and communication skills I use to turn ideas into practical solutions." },
+      projects: { badge: "Project showcase", heading: "Featured Projects", description: "Explore the engineering, product design, software, and research projects I have built and documented." },
       publications: { badge: "My Research", heading: "Publications & Research", description: "A comprehensive list of journals, conference papers, and active research items exploring industrial optimization and AI integration." },
-      blog: { heading: "Blog & Insights", description: "Exploring the intersections of Industrial Engineering, automation, and the digital future." },
+      blog: { badge: "Articles & ideas", heading: "Blog & Insights", description: "Exploring the intersections of Industrial Engineering, automation, and the digital future." },
       certifications: { badge: "My Credentials", heading: "Licenses & Certifications", description: "A track record of continuous learning, workshops, and verified professional achievements." },
       notices: { badge: "LIVE NEWSFEED", heading: "Announcement Board", description: "Stay updated with my latest workshops, collaborations, and project launches." },
-      photos: { heading: "Visual Memories", description: "A glimpse into my life outside of engineering—travels, volunteering, and photography." },
+      photos: { badge: "Photo gallery", heading: "Visual Memories", description: "A glimpse into my life outside of engineering—travels, volunteering, and photography." },
       contact: {
+        badge: "Get in touch",
         heading: "Let's Build Together",
         description: "I'm currently exploring new opportunities in Industrial Production Engineering and Automation. Let's start a conversation!",
         formHeading: "Send Me a Message",
@@ -203,6 +204,8 @@ export const portfolioData = {
         { name: "Portfolio", url: "https://my-portfolio-adnan.vercel.app/", type: "external" },
         { name: "Github", url: "https://github.com/IstiakAdnan114/My_portfolio", type: "github" }
       ],
+      coverImage: "",
+      images: [],
       icon: "user",
       color: "red"
     },
@@ -214,6 +217,10 @@ export const portfolioData = {
       links: [
         { name: "Project Overview", url: "https://www.researchgate.net/publication/394411020_Smart_Real-time_Monitoring_and_Control_of_Pill_Dispensing_and_Packaging_Process_for_Pharmaceutical_Industries_Using_IoT_and_Embedded_Systems", type: "external" },
         { name: "Video Demo", url: "https://youtu.be/k48h_o7BPG4?si=o_r9_2MXHW77Ubsx", type: "youtube" }
+      ],
+      coverImage: "/images/IoT-project.jpg",
+      images: [
+        { src: "/images/IoT-project.jpg", caption: "Smart real-time pill dispensing and packaging prototype" }
       ],
       icon: "microchip",
       color: "blue"
@@ -227,6 +234,11 @@ export const portfolioData = {
         { name: "Project Poster", url: "https://drive.google.com/file/d/14CYHKYSwveabi1GK01duwrjMFtBE_BkS/view?usp=drive_link", type: "pdf" },
         { name: "Visual Demo", url: "https://drive.google.com/file/d/1HaIXgY6Nj1Ce2tOGczlEilbjDsP1PEmB/view?usp=drive_link", type: "eye" }
       ],
+      coverImage: "/images/slice and scrape.jpg",
+      images: [
+        { src: "/images/slice and scrape.jpg", caption: "Fabricated Slice and Scrape prototype" },
+        { src: "/images/Project cover_page_short.jpg", caption: "Slice and Scrape product design overview" }
+      ],
       icon: "utensils",
       color: "green"
     },
@@ -238,6 +250,10 @@ export const portfolioData = {
       links: [
         { name: "CAD Files", url: "https://grabcad.com/library/laferrari-rastar-1", type: "download" }
       ],
+      coverImage: "/images/laferrari_rc.jpg",
+      images: [
+        { src: "/images/laferrari_rc.jpg", caption: "SolidWorks LaFerrari surface model render" }
+      ],
       icon: "car",
       color: "red"
     },
@@ -247,6 +263,8 @@ export const portfolioData = {
       tags: ["AutoCAD", "Technical Drawing", "Space Planning", "Architecture"],
       period: "Academic Project",
       links: [],
+      coverImage: "",
+      images: [],
       icon: "home",
       color: "yellow"
     }

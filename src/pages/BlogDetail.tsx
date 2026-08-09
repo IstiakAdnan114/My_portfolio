@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { motion } from "motion/react";
 import { ArrowLeft, Calendar, BookOpen, User } from "lucide-react";
@@ -8,6 +9,12 @@ import { portfolioData } from "../data";
 export default function BlogDetail() {
   const { id } = useParams();
   const post = portfolioData.blogPosts.find(p => p.id === Number(id));
+
+  useEffect(() => {
+    document.title = post
+      ? `${post.title} | ${portfolioData.name}`
+      : `Post Not Found | ${portfolioData.name}`;
+  }, [post]);
 
   if (!post) {
     return (

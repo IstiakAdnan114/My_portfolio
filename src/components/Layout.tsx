@@ -1,7 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "motion/react";
-import { Menu, X } from "lucide-react";
+import { ArrowRight, Menu, X } from "lucide-react";
 import { portfolioData } from "../data";
 import LightRays from "./LightRays";
 import FloatingLines from "./FloatingLines";
@@ -35,11 +35,25 @@ export default function Layout({ children }: LayoutProps) {
   const location = useLocation();
   const navigation = portfolioData.site.navigation.filter(item => item.visible);
   const theme = portfolioData.site.theme;
+  const currentNavigationIndex = navigation.findIndex(item => item.path === location.pathname);
+  const currentNavigationItem = currentNavigationIndex >= 0 ? navigation[currentNavigationIndex] : null;
+  const blogPost = location.pathname.startsWith("/blog/")
+    ? portfolioData.blogPosts.find(post => `/blog/${post.id}` === location.pathname)
+    : null;
+  const pageTitle = blogPost?.title ?? currentNavigationItem?.label ?? "Portfolio";
+  const nextNavigationItem = currentNavigationIndex >= 0 && navigation.length > 1
+    ? navigation[(currentNavigationIndex + 1) % navigation.length]
+    : null;
 
   // Scroll to top on route change
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [location]);
+
+  // Give every route its own browser-tab title while keeping the page design unchanged.
+  useEffect(() => {
+    document.title = `${pageTitle} | ${portfolioData.name}`;
+  }, [pageTitle, portfolioData.name]);
 
   return (
     <div className="min-h-screen font-sans text-[#f1f5f9] relative overflow-x-hidden" style={{ backgroundColor: theme.background, color: theme.text }}>
@@ -114,6 +128,24 @@ export default function Layout({ children }: LayoutProps) {
 
       <main className="pt-16 relative z-10">
         {children}
+        {nextNavigationItem && (
+          <nav aria-label="Continue to next page" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-4 mb-2 flex justify-end">
+            <motion.div whileHover={{ x: 4 }} whileTap={{ scale: 0.98 }}>
+              <Link
+                to={nextNavigationItem.path}
+                className="group inline-flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 px-5 py-3.5 transition-colors"
+              >
+                <span className="text-right">
+                  <span className="block text-[9px] font-black uppercase tracking-[0.22em] text-gray-500">Next page</span>
+                  <span className="block text-sm font-bold text-gray-200 group-hover:text-white">{nextNavigationItem.label}</span>
+                </span>
+                <span className="w-9 h-9 rounded-xl bg-indigo-500/15 text-indigo-300 flex items-center justify-center group-hover:bg-indigo-500 group-hover:text-white transition-colors">
+                  <ArrowRight size={18} />
+                </span>
+              </Link>
+            </motion.div>
+          </nav>
+        )}
       </main>
 
       <footer className="py-12 border-t border-white/10 glass mt-12">

@@ -1,18 +1,26 @@
 import { motion } from "motion/react";
-import { GraduationCap } from "lucide-react";
+import { GraduationCap, UserRound } from "lucide-react";
 import { portfolioData } from "../data";
 
 export default function About() {
   return (
-    <section className="py-24 px-4 min-h-screen">
+    <section className="pt-16 pb-24 px-4 min-h-screen">
       <div className="max-w-6xl mx-auto">
-        <motion.h2
+        <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="text-3xl md:text-5xl font-bold text-center mb-16 bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent"
+          className="text-center mb-16"
         >
-          {portfolioData.site.pageCopy.about.heading}
-        </motion.h2>
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 border border-indigo-400/30 text-indigo-300 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
+            <UserRound size={14} /> {portfolioData.site.pageCopy.about.badge}
+          </div>
+          <h1 className="text-3xl md:text-5xl font-bold mb-5 bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+            {portfolioData.site.pageCopy.about.heading}
+          </h1>
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
+            {portfolioData.site.pageCopy.about.description}
+          </p>
+        </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <motion.div

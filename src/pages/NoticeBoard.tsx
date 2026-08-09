@@ -14,7 +14,7 @@ export default function NoticeBoard() {
   const [selectedNotice, setSelectedNotice] = useState<Notice | null>(null);
 
   return (
-    <section className="py-24 px-4 min-h-screen">
+    <section className="pt-16 pb-24 px-4 min-h-screen">
       <div className="max-w-4xl mx-auto">
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -24,10 +24,10 @@ export default function NoticeBoard() {
           <div className="inline-flex items-center gap-2 px-5 py-2 bg-red-500/15 border border-red-500/20 text-red-400 rounded-full text-[10px] font-black tracking-widest uppercase mb-6 animate-pulse">
             <Bell size={14} /> {portfolioData.site.pageCopy.notices.badge}
           </div>
-          <h2 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-red-400 bg-clip-text text-transparent">
+          <h1 className="text-3xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-orange-300 to-red-300 bg-clip-text text-transparent">
             {portfolioData.site.pageCopy.notices.heading}
-          </h2>
-          <p className="text-gray-400 text-lg">
+          </h1>
+          <p className="text-gray-300 max-w-2xl mx-auto text-lg leading-relaxed">
             {portfolioData.site.pageCopy.notices.description}
           </p>
         </motion.div>

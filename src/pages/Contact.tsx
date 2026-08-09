@@ -50,10 +50,13 @@ export default function Contact() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
         >
-          <h2 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-white via-indigo-200 to-white bg-clip-text text-transparent">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-indigo-500/10 border border-indigo-400/30 text-indigo-300 rounded-full text-[10px] font-black tracking-widest uppercase mb-6">
+            <Mail size={14} /> {copy.badge}
+          </div>
+          <h1 className="text-4xl md:text-7xl font-bold mb-8 bg-gradient-to-r from-white via-indigo-200 to-white bg-clip-text text-transparent">
             {copy.heading}
-          </h2>
-          <p className="text-xl text-gray-400 mb-16 max-w-2xl mx-auto leading-relaxed">
+          </h1>
+          <p className="text-xl text-gray-300 mb-16 max-w-2xl mx-auto leading-relaxed">
             {copy.description}
           </p>
         </motion.div>

@@ -5,6 +5,7 @@ import { ArrowLeft, Calendar, BookOpen, User } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { portfolioData } from "../data";
+import BlogPostBlocks from "../components/BlogPostBlocks";
 
 export default function BlogDetail() {
   const { id } = useParams();
@@ -85,9 +86,9 @@ export default function BlogDetail() {
           className="glass-card p-8 md:p-16 bg-white/5 border border-white/10"
         >
           <div className="markdown-body prose prose-invert prose-indigo max-w-none">
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {post.content}
-            </ReactMarkdown>
+            {post.blocks?.length
+              ? <BlogPostBlocks blocks={post.blocks} />
+              : <ReactMarkdown remarkPlugins={[remarkGfm]}>{post.content}</ReactMarkdown>}
           </div>
         </motion.div>
 

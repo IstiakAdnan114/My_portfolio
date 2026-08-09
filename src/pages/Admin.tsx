@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type FormEvent } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowDown, ArrowUp, Check, ChevronDown, ChevronRight, Download, ExternalLink,
@@ -11,6 +11,7 @@ import {
   deleteContactMessage, fetchContactMessages, MESSAGE_EVENT, setMessageRead,
   type ContactMessage
 } from "../cms/messages";
+import BlogPostsEditor from "../components/admin/BlogPostsEditor";
 
 type JsonValue = string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue };
 
@@ -129,8 +130,12 @@ interface FieldEditorProps {
 function FieldEditor({ label, value, path, onChange, onUpload, depth = 0 }: FieldEditorProps) {
   const [open, setOpen] = useState(depth < 2);
   const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState("");
+  const fieldId = useId();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const imageField = /image|avatar|photo|thumbnail|src/i.test(label);
   const longText = typeof value === "string" && (value.length > 100 || /about|content|description|excerpt|points/i.test(label));
+  const blogContentField = path[0] === "blogPosts" && label === "content";
 
   if (Array.isArray(value)) {
     const addItem = () => {
@@ -192,23 +197,71 @@ function FieldEditor({ label, value, path, onChange, onUpload, depth = 0 }: Fiel
 
   const stringValue = value == null ? "" : String(value);
   const isHexColor = /^#[0-9a-f]{6}$/i.test(stringValue);
+  const uploadFile = async (file: File, apply: (url: string) => void, input: HTMLInputElement) => {
+    setUploading(true);
+    setUploadError("");
+    try {
+      apply(await onUpload(file));
+    } catch (reason) {
+      setUploadError(reason instanceof Error ? reason.message : "Unable to upload this image.");
+    } finally {
+      setUploading(false);
+      input.value = "";
+    }
+  };
+
+  const insertBlogImage = (url: string, file: File) => {
+    const textarea = textareaRef.current;
+    const start = textarea?.selectionStart ?? stringValue.length;
+    const end = textarea?.selectionEnd ?? start;
+    const alt = file.name.replace(/\.[^.]+$/, "").replace(/[\[\]]/g, "").trim() || "Blog image";
+    const before = stringValue.slice(0, start).replace(/\s*$/, "");
+    const after = stringValue.slice(end).replace(/^\s*/, "");
+    const markdown = `\n\n![${alt}](${url})\n\n`;
+    const nextValue = `${before}${markdown}${after}`;
+    onChange(path, nextValue);
+    requestAnimationFrame(() => {
+      if (!textareaRef.current) return;
+      const cursor = before.length + markdown.length;
+      textareaRef.current.focus();
+      textareaRef.current.setSelectionRange(cursor, cursor);
+    });
+  };
+
   return (
-    <label className="block text-sm text-slate-300">
-      <span className="flex items-center justify-between gap-3"><span>{titleCase(label)}</span>{isHexColor && <span className="w-5 h-5 rounded-full border border-white/20" style={{ background: stringValue }} />}</span>
+    <div className="block text-sm text-slate-300">
+      <label htmlFor={fieldId} className="flex items-center justify-between gap-3"><span>{titleCase(label)}</span>{isHexColor && <span className="w-5 h-5 rounded-full border border-white/20" style={{ background: stringValue }} />}</label>
       <div className="mt-2 flex gap-2">
         {isHexColor && <input aria-label={`${label} color picker`} type="color" value={stringValue} onChange={e => onChange(path, e.target.value)} className="h-11 w-14 rounded-lg bg-transparent border border-white/10 p-1" />}
-        {longText ? <textarea value={stringValue} onChange={e => onChange(path, e.target.value)} rows={Math.min(14, Math.max(4, Math.ceil(stringValue.length / 100)))} className="admin-input resize-y" /> : <input value={stringValue} onChange={e => onChange(path, e.target.value)} className="admin-input" />}
+        {longText ? <textarea id={fieldId} ref={textareaRef} value={stringValue} onChange={e => onChange(path, e.target.value)} rows={Math.min(14, Math.max(4, Math.ceil(stringValue.length / 100)))} className="admin-input resize-y" /> : <input id={fieldId} value={stringValue} onChange={e => onChange(path, e.target.value)} className="admin-input" />}
         {imageField && <label className="admin-icon-btn h-11 w-11 shrink-0 cursor-pointer" title="Upload image">
           {uploading ? <Loader2 size={17} className="animate-spin" /> : <ImagePlus size={17} />}
           <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={async e => {
             const file = e.target.files?.[0];
             if (!file) return;
-            setUploading(true);
-            try { onChange(path, await onUpload(file)); } finally { setUploading(false); }
+            await uploadFile(file, url => onChange(path, url), e.currentTarget);
           }} />
         </label>}
       </div>
-    </label>
+      {blogContentField && <div className="mt-3 rounded-xl border border-indigo-400/20 bg-indigo-500/[0.06] p-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="font-bold text-slate-200">Images inside this post</p>
+            <p className="text-xs text-slate-500 mt-1">Place the cursor in the content above, then upload. The image is inserted there automatically.</p>
+          </div>
+          <label className="admin-action secondary cursor-pointer">
+            {uploading ? <Loader2 size={17} className="animate-spin" /> : <ImagePlus size={17} />} Upload & insert image
+            <input type="file" accept="image/*" className="hidden" disabled={uploading} onChange={async e => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              await uploadFile(file, url => insertBlogImage(url, file), e.currentTarget);
+            }} />
+          </label>
+        </div>
+        <p className="text-[11px] text-slate-500 mt-3">Tip: edit the text inside <code className="text-indigo-300">![square brackets]</code> after insertion to describe the image.</p>
+      </div>}
+      {uploadError && <p className="mt-2 text-xs text-red-300">{uploadError}</p>}
+    </div>
   );
 }
 
@@ -280,7 +333,7 @@ function AdminDashboard() {
             <div className="rounded-2xl border border-white/10 p-4"><Eye className="text-indigo-300 mb-3" /><p className="font-bold">Navigation</p><p className="text-xs text-slate-500 mt-1">Rename, reorder, or hide links.</p></div>
           </div>}
 
-          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : <div className="space-y-5">
+          {section === "messages" ? <MessagesInbox mode={cms.mode} /> : section === "account" ? <AccountSettings onChangePassword={cms.changePassword} mode={cms.mode} /> : section === "blogPosts" ? <BlogPostsEditor posts={cms.draft.blogPosts} onChange={blogPosts => cms.setDraft({ ...cms.draft, blogPosts })} onUpload={cms.upload} /> : <div className="space-y-5">
             {activeFields.map(([key, value]) => <FieldEditor key={key} label={key} value={value as JsonValue} path={[key]} onChange={update} onUpload={cms.upload} />)}
           </div>}
 

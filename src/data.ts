@@ -1,3 +1,5 @@
+import type { BlogBlock } from "./blog/blocks";
+
 /**
  * This file contains all the content for the portfolio.
  * You can easily add, delete, or change any content here.
@@ -459,7 +461,8 @@ It was a good reminder that fresh eyes sometimes see things that experienced one
 ![Final presentation day](/images/presentation_day_pip.jpg)
 
 More plant-specific posts coming soon. **Team Kiwi**, we did good.
-  `
+  `,
+      blocks: [] as BlogBlock[]
     },
     {
       id: 2,
@@ -469,7 +472,8 @@ More plant-specific posts coming soon. **Team Kiwi**, we did good.
       category: "Manufacturing",
       image: "https://picsum.photos/seed/lean/1200/800",
       content: `
-Likhbo pore `
+Likhbo pore `,
+      blocks: [] as BlogBlock[]
     }
   ],
   publications: [

@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { portfolioData } from "../data";
+import { markdownToBlocks } from "../blog/blocks";
 import {
   fetchRemoteDraft,
   fetchRemotePublished,
@@ -40,6 +41,21 @@ const normalizeContent = (content: unknown): PortfolioContent => {
       return projectFallback ? mergeWithDefaults(projectFallback, project) : project as any;
     });
   }
+  const savedBlogPosts = content && typeof content === "object" && Array.isArray((content as any).blogPosts)
+    ? (content as any).blogPosts as Array<Record<string, unknown>>
+    : null;
+  if (savedBlogPosts) {
+    normalized.blogPosts = savedBlogPosts.map((post, index) => {
+      const postFallback = defaults.blogPosts.find(item => item.id === Number(post.id)) ?? defaults.blogPosts[index];
+      return postFallback ? mergeWithDefaults(postFallback, post) : post as any;
+    });
+  }
+  normalized.blogPosts = normalized.blogPosts.map(post => ({
+    ...post,
+    blocks: Array.isArray(post.blocks) && post.blocks.length
+      ? post.blocks
+      : markdownToBlocks(post.content ?? ""),
+  }));
   const savedContact = content && typeof content === "object"
     ? (content as any)?.site?.pageCopy?.contact
     : null;
